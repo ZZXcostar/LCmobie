@@ -269,7 +269,7 @@ export default {
                                 else{
                                     this.$router.push('/index');
                                 }
-                                // location.href='http://www.shhongzhiyun.com';
+                                // location.href='http://daojia.jingrunjia.com.cn';
                                 // t
                             }
                             else{

@@ -259,7 +259,7 @@
                         that.$router.push({
                             path: '/InvitingResult?companyId=' + that.companyId,
                             query: {
-                                text: '恭喜你 ! 已成功领取积分',
+                                text: '领取成功',
                                 phone:that.formData.phone
                             }
                         })
