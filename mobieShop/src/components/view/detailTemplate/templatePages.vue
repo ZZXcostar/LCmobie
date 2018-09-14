@@ -641,37 +641,50 @@
             },
             // 登录
             tologin(){
-                this.getAppId().then(flag=>{
-                    if(flag){
-                        let companyid=sessionStorage.getItem('companyId');
-                        if(companyid==null){
-                          companyid = this.getURLparms("companyId")
+                let companyid=sessionStorage.getItem('companyId');
+                if(companyid==null){
+                    companyid = this.getURLparms("companyId")
+                }
+                 if(companyid == 114){
+                    //编码
+                    let recommendedTeamId = this.$route.query.recommendedTeamId;
+                    let recommendedAdminId = this.$route.query.recommendedAdminId;
+                    let url = "http://daojia.jingrunjia.com.cn/login?openId=null&company=114&recommendedTeamId="+recommendedTeamId+"&recommendedAdminId="+recommendedAdminId
+                    let selfUrl = encodeURIComponent(url);
+                     
+                     // Toast("申请授权中");
+                      location.href="http://api.jingrunjia.com.cn:8887/public/test/service/getWxToken?callback_url=http%3a%2f%2fapi.jingrunjia.com.cn%3a8887%2fpublic%2ftest%2fservice%2fgetWxToken&redirect_uri="+selfUrl; 
+               
+                }else{
+                        this.getAppId().then(flag=>{
+                        if(flag){
+                            
+                            let recommendedTeamId=this.$route.query.recommendedTeamId;
+                            let recommendedAdminId=this.$route.query.recommendedAdminId;
+                            // alert(recommendedAdminId);
+                            // alert(recommendedTeamId);
+                            // let url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='+this.appid+
+                            //     '&redirect_uri=http://pay.jingrunjia.com.cn?company='+companyid
+                            //     +'&recommendedTeamId='+recommendedTeamId
+                            //     +'&recommendedAdminId='+recommendedAdminId
+                            //     +'&response_type=code&scope=snsapi_userinfo&state=STATE';
+                            let json={
+                                company:companyid,
+                                recommendedTeamId:recommendedTeamId,
+                                recommendedAdminId:recommendedAdminId
+                            };
+                                let url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='+this.appid+
+                                '&redirect_uri=http://pay.jingrunjia.com.cn?json='+JSON.stringify(json)
+                                +'&response_type=code&scope=snsapi_userinfo&state=STATE';
+                            // let url=
+                            //     'http://localhost:8082?company='+companyid
+                            //     +'&recommendedTeamId='+recommendedTeamId
+                            //     +'&recommendedAdminId='+recommendedAdminId
+                            //     +'&response_type=code&scope=snsapi_userinfo&state=STATE';
+                            location.href=url;
                         }
-                        let recommendedTeamId=this.$route.query.recommendedTeamId;
-                        let recommendedAdminId=this.$route.query.recommendedAdminId;
-                        // alert(recommendedAdminId);
-                        // alert(recommendedTeamId);
-                        // let url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='+this.appid+
-                        //     '&redirect_uri=http://pay.jingrunjia.com.cn?company='+companyid
-                        //     +'&recommendedTeamId='+recommendedTeamId
-                        //     +'&recommendedAdminId='+recommendedAdminId
-                        //     +'&response_type=code&scope=snsapi_userinfo&state=STATE';
-                        let json={
-                            company:companyid,
-                            recommendedTeamId:recommendedTeamId,
-                            recommendedAdminId:recommendedAdminId
-                        };
-                            let url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='+this.appid+
-                            '&redirect_uri=http://pay.jingrunjia.com.cn?json='+JSON.stringify(json)
-                            +'&response_type=code&scope=snsapi_userinfo&state=STATE';
-                        // let url=
-                        //     'http://localhost:8082?company='+companyid
-                        //     +'&recommendedTeamId='+recommendedTeamId
-                        //     +'&recommendedAdminId='+recommendedAdminId
-                        //     +'&response_type=code&scope=snsapi_userinfo&state=STATE';
-                        location.href=url;
-                    }
-                }); 
+                    }); 
+                }
             },
             //获取地址栏参数，name:参数名称
             getUrlParms(name) {

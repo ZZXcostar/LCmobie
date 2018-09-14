@@ -61,6 +61,7 @@
             }
         },
         created() {
+           
             // document.title='xxx';
             let select_session = sessionStorage.getItem('select_index');
             if (select_session != null) {
@@ -148,6 +149,14 @@
                         }
                 }
             });
+             console.log(this.$route.query.data)
+            let newCompanydata = this.$route.query.data;
+            if(newCompanydata != undefined){
+             let newParameters = decodeURI(newCompanydata)
+             sessionStorage.setItem('newParameters', newParameters)
+              this.selected = '我的';
+              Toast("授权成功,请登录");
+            }
             // 浏览状态（PC浏览）：根据'ID'和'商城模板类型'查询首页模板数据  。并将默认首页设置消失  isTrue = true
             let isBrowse;
             if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {

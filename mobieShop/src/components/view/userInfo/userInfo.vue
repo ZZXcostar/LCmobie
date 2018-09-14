@@ -265,7 +265,45 @@
             },
             // 登录
             tologin(){
-                this.getAppId().then(flag=>{
+                let companyID = sessionStorage.getItem('companyId');
+                if(companyID == 114){
+                    // let newParameters = sessionStorage.getItem('newParameters')
+                    // if(newParameters != undefined || newParameters != null){
+                    //      let recommendedTeamId =null;
+                    //     let recommendedAdminId = null;
+                    //     let openid= newParameters.openId
+                    //     location.href='http://daojia.jingrunjia.com.cn/login?openId='+openid+'&company='+companyID+'&recommendedTeamId='+recommendedTeamId+'&recommendedAdminId='+recommendedAdminId;
+                    // }else{
+                    //   //编码
+                    //    let selfUrl = encodeURI("http://daojia.jingrunjia.com.cn/?company=114");
+                    //    Toast("申请授权中");
+                    //    window.location.href="http://api.jingrunjia.com.cn:8887/public/test/service/getWxToken?callback_url=http%3a%2f%2fapi.jingrunjia.com.cn%3a8887%2fpublic%2ftest%2fservice%2fgetWxToken&redirect_uri="+selfUrl; 
+                    // }
+                
+
+                    //编码
+                    let recommendedTeamId = null;
+                    let recommendedAdminId = null;
+                    let url = "http://daojia.jingrunjia.com.cn/login?openId=null&company=114&recommendedTeamId="+recommendedTeamId+"&recommendedAdminId="+recommendedAdminId
+                    let selfUrl = encodeURIComponent(url);
+                     
+                     // Toast("申请授权中");
+                      window.location.href="http://api.jingrunjia.com.cn:8887/public/test/service/getWxToken?callback_url=http%3a%2f%2fapi.jingrunjia.com.cn%3a8887%2fpublic%2ftest%2fservice%2fgetWxToken&redirect_uri="+selfUrl; 
+
+               
+               // var url = "http://api.jingrunjia.com.cn:8887/public/test/service/getWxToken?callback_url=http%3a%2f%2fapi.jingrunjia.com.cn%3a8887%2fpublic%2ftest%2fservice%2fgetWxToken&callback_function=openidCB";
+                
+              //  var script = document.createElement('script');
+              //  script.setAttribute('src', url);
+              //  document.getElementsByTagName('head')[0].appendChild(script); 
+                //  setTimeout(() => {
+                //      let recommendedTeamId =null;
+                //      let recommendedAdminId = null;
+                //     let openid= sessionStorage.getItem('openid')
+                //     location.href='http://daojia.jingrunjia.com.cn/login?openId='+openid+'&company='+companyID+'&recommendedTeamId='+recommendedTeamId+'&recommendedAdminId='+recommendedAdminId;
+                // }, 500)
+                }else{
+                    this.getAppId().then(flag=>{
                     if(flag){
                         let companyid=sessionStorage.getItem('companyId');
                         let json={
@@ -281,9 +319,10 @@
                         //     '&redirect_uri=http://pay.jingrunjia.com.cn?company='+companyid+
                         //     '&response_type=code&scope=snsapi_userinfo&state=STATE ';
                         location.href=url;
-                        // this.$router.replace(url);
-                    }
-                });
+                            // this.$router.replace(url);
+                        }
+                    });
+                }
             },
             //获取appId
             getAppId(){

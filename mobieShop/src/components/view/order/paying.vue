@@ -49,8 +49,14 @@ export default {
         pay(){
             let that=this;
             // alert(this.orderNumber);
-            
-            this.$http.post('/api/product/order/weixin/pay',[this.orderNumber])
+            let companyId = sessionStorage.getItem('companyId')
+            let payUrl = '/api/product/order/weixin/pay'
+            let openIds = localStorage.getItem('openId')
+          //  alert(openIds)
+            if(companyId == 114){
+               payUrl = '/api/product/order/weixin/pay?openId='+openIds
+            }
+            this.$http.post(payUrl,[this.orderNumber])
             .then(res=>{
                 // Toast(res);
                 if(res.data.status==200){

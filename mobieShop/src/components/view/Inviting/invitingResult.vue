@@ -64,6 +64,10 @@ export default {
         this.wxSrc = "http://daojia.jingrunjia.com.cn/api/static/weixin/92.jpg";
         break;
       }
+      case "114": {
+        this.wxSrc = "http://daojia.jingrunjia.com.cn/api/static/weixin/114.jpg";
+        break;
+      }
       default: {
         this.wxSrc = "http://daojia.jingrunjia.com.cn/api/static/weixin/78.jpg";
         break;

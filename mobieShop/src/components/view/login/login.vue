@@ -1,13 +1,17 @@
 <template>
     <div class='contain'>
         <div class='imgs'>
-            <div v-if='!styletwo'>
+            <div v-if='styleone'>
                 <div class='logo1'></div>
                 <div class='logo2'></div>
             </div>
             <div v-if="styletwo">
                 <div v-if='resignflag' :style='style2Login1'></div>
                 <div v-if='!resignflag' :style='style2Login2'></div>                
+            </div>
+            <div v-if="stylethree">
+                <div v-if='resignflag' :style='style3Login1'></div>
+                <div v-if='!resignflag' :style='style3Login2'></div> 
             </div>
         </div>
         
@@ -49,9 +53,8 @@
                 <i class='icon iconfont icon-key font'></i>
                 <input type="text" class='codeinput' placeholder="验证码" v-model="code" @focus="focus_input" @blur="blur_input">
                 <p class='error'></p>
-                <router-link to='' style='position:absolute;font-size:.3rem;top:.6rem;right:.2rem;'  @click.native='getcode(2)'>{{second}}</router-link>
+                <router-link :to="linkURL" style='position:absolute;font-size:.3rem;top:.6rem;right:.2rem;'  @click.native='getcode(2)'>{{second}}</router-link>
             </div>
-            
             <p class='opera_quick'>
                 <mt-button type="default" class='btn-login button' @click="loginquick">快速登录</mt-button>
                 <!-- <router-link to='' class='pswlogin' @click.native='switch_login'>密码登录</router-link> -->
@@ -69,7 +72,7 @@
                 <i class='icon iconfont icon-key font'></i>
                 <input type="text" class='codeinput' placeholder="验证码" v-model="code" @focus="focus_input" @blur="blur_input">
                 <p class='error'></p>
-                <router-link to='' style='position:absolute;font-size:.3rem;top:.6rem;right:.2rem;'  @click.native='getcode(1)'>{{second}}</router-link>
+                <router-link :to="linkURL"  style='position:absolute;font-size:.3rem;top:.6rem;right:.2rem;'  @click.native='getcode(1)'>{{second}}</router-link>
             </div>
             <div class="psw" v-if='false'>
                 <i class='icon iconfont icon-16suo font'></i>
@@ -155,9 +158,31 @@ export default {
                 margin:'auto',
                 backgroundPositionX:'50%'
             },
+             style3Login2:{
+                width:'80%',
+                left:'10%',
+                height:'3.95rem',
+                backgroundImage:"url(" + require("../../../../static/images/style3-login1.png") + ")",
+                backgroundSize:'cover',
+                position:'absolute',
+                bottom:'1rem',
+                
+            },
+            style3Login1:{
+                width:'80%',
+                left:'10%',
+                height:'3.95rem',
+                backgroundImage:"url(" + require("../../../../static/images/style3-login1.png") + ")",
+                backgroundSize:'cover',
+                position:'absolute',
+                bottom:'1rem',
+            },
             styletwo:false,
+            styleone:true,
+            stylethree:false,
             isAndroid:true,
-            wHeight:0
+            wHeight:0,
+            linkURL:''
         }
     },
     mounted(){
@@ -168,8 +193,7 @@ export default {
     created(){
         this.wHeight = window.innerHeight;
         let companyid=this.$route.query.company==null?this.$route.query.companyId:this.$route.query.company;
-        
-        
+       
         if(companyid!=null){
             sessionStorage.setItem('companyId', companyid);
             this.companyid=companyid;
@@ -179,9 +203,35 @@ export default {
         }
         if(sessionStorage.getItem('companyId')==92){
             this.styletwo=true;
+            this.styleone=false;
+            this.stylethree=false;
+        }else if(sessionStorage.getItem('companyId')==114){
+           // alert(114)
+            this.styletwo=false;
+            this.styleone=false;
+            this.stylethree=true;
         }
         let openid=this.$route.query.openId;
         this.openId=openid;
+
+         
+        // console.log(this.$route.query.data)
+            let newCompanydata = this.$route.query.data;
+            if(newCompanydata != undefined){
+             let newParameters = decodeURIComponent(newCompanydata)
+             // Toast("授权成功,请登录");
+             newParameters = JSON.parse(newParameters)
+             console.log(newParameters)
+                    if(newParameters != undefined || newParameters != null){
+                    this.openId= newParameters.openId
+                    localStorage.setItem('openId',this.openId)
+                    sessionStorage.setItem('openId',this.openId)
+                }
+            }
+
+          let linkURL = window.location.href;
+          let linkURLs = linkURL.split('login');
+          this.linkURL = '/login'+linkURLs[1]
         // if(openid==null){
         //     Toast('获取openid失败');
         // }
@@ -245,14 +295,33 @@ export default {
                         that.in_resolve=false;
                     } else {
                         let data=res.data.info;
-                        let json={
+                        // let json={
 
-                        };
+                        // };
+                        let isActivity = that.$route.query.isActivity;
+                         let openId = sessionStorage.getItem('openId')
+                        // alert(isActivity)
+                                if(isActivity != undefined && openId ==null|| openId == undefined){
+                                 //   alert(isActivity)
+                                        if(isActivity == 114){
+                                            Toast({
+                                                message: '正在为你跳转请稍后...',
+                                                iconClass: 'icon icon-success',
+                                                duration: 500
+                                            });
+                                            let memberId = data.id;
+                                            let phone = that.phone;
+                                            let openIds = that.openId
+                                            window.location.href = "http://www.house178.com/qbfc/coupon/service/index?memberId="+memberId+"&phone="+phone+"&openId="+openIds
+                                    }
+                                }
+
                         operatelocalstorage('userinfo',JSON.stringify(data),'set',300);
                         // sessionStorage.setItem('userinfo', JSON.stringify(data));
                         // this.$store.commit('login',res.data.info)
                         // let userinfo = res.data
                         // sessionStorage.setItem('userinfo', JSON.stringify(data));
+                        
                         setTimeout(() => {
                             Toast({
                                 message: '登录成功正在为你跳转请稍后...',
@@ -323,6 +392,25 @@ export default {
                         
                         if(response.data.status == 200){
                             let data=response.data.info;
+
+                           let isActivity = that.$route.query.isActivity;
+                         let openId = sessionStorage.getItem('openId')
+                        // alert(isActivity)
+                                if(isActivity != undefined && openId ==null|| openId == undefined){
+                                 //   alert(isActivity)
+                                        if(isActivity == 114){
+                                            Toast({
+                                                message: '正在为你跳转请稍后...',
+                                                iconClass: 'icon icon-success',
+                                                duration: 500
+                                            });
+                                            let memberId = data.id;
+                                            let phone = that.phone;
+                                            let openIds = that.openId
+                                            window.location.href = "http://www.house178.com/qbfc/coupon/service/index?memberId="+memberId+"&phone="+phone+"&openId="+openIds
+                                    }
+                                }
+
                             operatelocalstorage('userinfo',JSON.stringify(data),'set',300);
                             // sessionStorage.setItem('userinfo', JSON.stringify(data));
                             // that.$store.commit('login',response.data.info)
@@ -404,6 +492,25 @@ export default {
                         var msg = res.data.msg
                         if(res.data.status==200){
                             let data=res.data.info;
+
+                         let isActivity = that.$route.query.isActivity;
+                         let openId = sessionStorage.getItem('openId')
+                        // alert(isActivity)
+                                if(isActivity != undefined && openId ==null|| openId == undefined){
+                                 //   alert(isActivity)
+                                        if(isActivity == 114){
+                                            Toast({
+                                                message: '正在为你跳转请稍后...',
+                                                iconClass: 'icon icon-success',
+                                                duration: 500
+                                            });
+                                            let memberId = data.id;
+                                            let phone = that.phone;
+                                            let openIds = that.openId
+                                            window.location.href = "http://www.house178.com/qbfc/coupon/service/index?memberId="+memberId+"&phone="+phone+"&openId="+openIds
+                                    }
+                                }
+
                             operatelocalstorage('userinfo',JSON.stringify(data),'set',300);
 
                             setTimeout(() => {

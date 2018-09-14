@@ -40,10 +40,9 @@
                                                 <img :src='"http://"+hostName+":"+port+"/api"+item.image'>
                                             </li>
                                             <li class="goods_info">
-                                                <p class="brandDesc">{{item.commodityBrand}}</p>
+                                                <p class="brandDesc">{{item.commodityName}}</p>
                                                 <p class="goods_identifier strlen" style="width:2.5rem;padding-right:0.2rem;"><span></span></p>
-                                                <p class="goods_color">{{item.condition1Name}}</p>
-                                                <p class="goods_color">{{item.condition2Name}}</p>
+                                                <p class="goods_color" v-show="item.commodityDetail==null?false:true" v-for="(val,key,index) in  item.commodityDetail==null?{' ':' '}:JSON.parse(item.commodityDetail.conditionStr)" :key="index">{{key}}:{{val}}</p>
                                             </li>
                                             <li class="goods_info_se">
                                                 <p class="goods_price">￥<span>{{item.price}}</span></p>
@@ -113,10 +112,9 @@
                                                 <img :src='"http://"+hostName+":"+port+"/api"+item.image'>
                                             </li>
                                             <li class="goods_info">
-                                                <p class="brandDesc">套餐:{{items.commodityBrand}}</p>
+                                                <p class="brandDesc">套餐:{{items.commodityName}}</p>
                                                 <p class="goods_identifier strlen" style="width:2.5rem;padding-right:0.2rem;"><span></span></p>
-                                                <p class="goods_color">{{items.condition1Name}}</p>
-                                                <p class="goods_color">{{items.condition2Name}}</p>
+                                                <p class="goods_color" v-show="item.commodityDetail==null?false:true"  v-for="(val,key,index) in  item.commodityDetail==null?{' ':' '}:JSON.parse(item.commodityDetail.conditionStr)" :key="index">{{key}}:{{val}}</p>
                                             </li>
                                             <li class="goods_info_se">
                                                 <p class="goods_price">￥<span>{{items.price}}</span></p>
@@ -1319,6 +1317,10 @@
     .brandDesc {
         font-size: 0.3rem;
         font-weight: 700;
+        width: 3.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .goods {
         width: 100%;

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class='{"style-two":styletwo}'>
+  <div id="app" :class='{"style-two":styletwo,"style-three":stylethree}'>
     <router-view/>
   </div>
 </template>
@@ -9,12 +9,27 @@ export default {
   name: 'App',
   data(){
     return{
-      styletwo:false
+      styletwo:false,
+      stylethree:false
     }
   },
   beforeUpdate(){
     if(sessionStorage.getItem('companyId')==92){
         this.styletwo=true;
+        this.stylethree=false;
+    }else if(sessionStorage.getItem('companyId')==114){
+        this.styletwo=false;
+        this.stylethree=true;
+    }
+    let company = this.$route.query.company;
+    if(company !=undefined){
+       if(company == 92){
+          this.styletwo=true;
+          this.stylethree=false;
+        }else if(company==114){
+            this.styletwo=false;
+            this.stylethree=true;
+        }
     }
   },
   watch:{
@@ -158,6 +173,117 @@ export default {
 
 }
 .style-two~.mint-msgbox-wrapper .confirmButton{
+  color:#edc278 !important;
+}
+.style-three{
+  .font,{
+    color:#edc278 !important;
+  }
+  .font-extra{
+    background:linear-gradient(to bottom,#99521f,#6f3f17) !important;
+    color: transparent;
+    -webkit-background-clip: text !important;
+  }
+  .font::after{
+      background-color:#f1c885 !important;
+  }
+  .border{
+    border-color:#f1c885 !important;
+  }
+  .button{
+    background: -webkit-linear-gradient(90deg,#ecc076,#f1c885) !important;
+    border:none !important;
+    color: #fff;
+  }
+  .mint-radio-input:checked + .mint-radio-core,.mint-checkbox-input:checked + .mint-checkbox-core{
+    background: #f1c885 !important;
+    border-color:#f1c885 !important;
+  }
+  .is-selected,{
+    color:#edc278 !important;
+    border-color:#f1c885 !important;
+  }
+  .background{
+    background-color: #ecc076 !important;
+  }
+  .navbar_type.mint-navbar .mint-tab-item.is-selected .mint-tab-item-label{
+      border-color:#f1c885;
+  }
+  .mint-tabbar > .mint-tab-item.is-selected {
+      color:#edc278 !important;
+  }
+  // 邀请注册
+  #invite-register{
+    .background-tip{
+      background-image:url("/static/images/back_tip.png") !important;
+    }
+  }
+  
+  // 日历
+  .wh_container{
+    background: #f1c885 !important;
+    .wh_content_all{
+      background: #f1c885 !important;
+    }
+    .wh_content_item div .wh_isToday{
+        color:#f1c885;
+    }
+  }
+  // 个人中心
+  .userinfo{
+    .infoBottom{
+      background-image:url("/static/images/style2-background_info.jpg") !important;
+    }
+    .account_info{
+      box-shadow: 0.05rem 0.05rem 0.15rem #f1c885 !important;
+    }
+  }
+  // 发票
+  .colormore::after{
+    background:#f1c885 !important;
+  }
+  .backgroundextra{
+    background-image: -webkit-gradient( linear, 50% 0, 0 100%, from(transparent), //起点的颜色
+        color-stop(.7, transparent), //中间某一个点必须达到这个颜色，表示变化过程  .5b表示这个渐变范围长度的总长的50%
+        color-stop(.7, #f1c885), //同上
+        to(#f1c885)), //结束段的颜色
+        //一个背景块的分为两个15X 15  组成。
+        -webkit-gradient(linear, 50% 0, 100% 100%, from(transparent), color-stop(.7, transparent), color-stop(.7, #ecc076), to(#f1c885)) !important;
+  }
+  // 个人积分
+  .personalscores{
+    background-image:url("/static/images/style2-scores.jpg") !important;
+  }
+  // 邀请结果
+  #invite-result .result-top{
+    background-image:url('/static/images/style3-inviteresult.png') !important;
+  }
+  // 邀请注册
+    #invite-register{
+        .icon{
+          background-image: url("/static/images/style2-icon.png");
+        }
+    }
+  // 邀请规则
+  #invite-regular {
+    .topimg{
+      background-image:url('/static/images/style3-inviteresult.png') !important;
+    }
+    .regular-top li p.top-title::before{
+      background:#edc278 !important;
+    }
+    .regular-bottom .bottom{
+        background-image:url('/static/images/style2-icon.png') !important;
+        div{
+          width:4rem;
+          height:1.3rem;
+        }
+    }
+  }
+  
+
+}
+.style-three~.mint-msgbox-wrapper .confirmButton{
   color:#edc278 !important;
 }
 </style>
