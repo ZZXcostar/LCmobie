@@ -175,9 +175,9 @@
         </transition>
         <div class='detailBottom'>
             <ul>
-                <li>
-                    <i class='icon iconfont icon-tubiaolunkuo-'></i>
-                    <p>客服</p>
+                <li @click="backIndex">
+                    <i class='icon iconfont icon-dianpu'></i>
+                    <p>店铺</p>
                 </li>
                 <li @click="collectionStar">
                     <i class="icon iconfont" :class="starXingXing" :style="starXingXingColor"></i>
@@ -935,6 +935,13 @@
                             })
                     }
                 }
+            },
+            backIndex(){
+                let companyid=this.$route.query.companyId;
+                if(companyid == null || companyid== undefined ){
+                   companyid = sessionStorage.getItem('companyId');
+                }
+                this.$router.push('/index?company='+companyid);
             },
             collectionStar() {
                 if (this.isStar == false) {

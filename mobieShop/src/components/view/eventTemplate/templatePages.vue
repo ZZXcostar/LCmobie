@@ -84,7 +84,7 @@ import Mint from 'mint-ui';
                     if(companyId == null || companyId == 'null'){
                         companyId = sessionStorage.getItem("companyId");
                     }
-
+                    sessionStorage.setItem("companyId",companyId);
                     ///////////////查询活动对应活动模板的信息/////////////
 
                     this.$http.post('/api/product/mall/template/queryMap/mall',
@@ -108,7 +108,7 @@ import Mint from 'mint-ui';
 
                     let activeId = this.getURLparms("activeId"); //活动ID
                     this.activeIds = activeId
-                    this.$http.post('/api/product/activity/find?pageSize=10&pageNo=1',{
+                    this.$http.post('/api/product/activity/find/mall?pageSize=10&pageNo=1',{
                         'id':activeId
                     })
                     .then(function(res){
@@ -138,6 +138,7 @@ import Mint from 'mint-ui';
                     if(companyId == null || companyId == 'null'){
                         companyId = sessionStorage.getItem("companyId");
                     }
+                     sessionStorage.setItem("companyId",companyId);
                       this.$http.post('/api/product/mall/template/queryMap/mall',
                             {
                                 'templateID':ids,
