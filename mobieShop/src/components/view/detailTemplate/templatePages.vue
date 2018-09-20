@@ -941,7 +941,7 @@
                 if(companyid == null || companyid== undefined ){
                    companyid = sessionStorage.getItem('companyId');
                 }
-                this.$router.push('/index?company='+companyid);
+                this.$router.push('/index?company='+companyid+'&detailBackindex=is');
             },
             collectionStar() {
                 if (this.isStar == false) {

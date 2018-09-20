@@ -149,6 +149,9 @@
                         }
                 }
             });
+           if(this.$route.query.detailBackindex){
+               this.selected='首页';
+           }
             // 浏览状态（PC浏览）：根据'ID'和'商城模板类型'查询首页模板数据  。并将默认首页设置消失  isTrue = true
             let isBrowse;
             if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
@@ -342,6 +345,8 @@
         },
         beforeDestroy() {
             this.$root.$off('switchindex');
+            this.$root.$off('detailBackindex');
+            
             // let userinfo_location=operatelocalstorage('userinfo',null,'get',null);
             // if(userinfo_location!=null){
             //     operatelocalstorage('userinfo',userinfo_location,'set',30);
