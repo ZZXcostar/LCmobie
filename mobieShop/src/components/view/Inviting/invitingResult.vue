@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       bgSrc: require("./invite-result.png"),
-      wxSrc: "http://daojia.jingrunjia.com.cn/api/static/weixin/78.jpg",
+      wxSrc: "http://www.shhongzhiyun.com/api/static/weixin/78.jpg",
       msg: "",
       coupon: [
         {
@@ -53,23 +53,23 @@ export default {
     this.phone = phone;
     switch (companyId) {
       case "78": {
-        this.wxSrc = "http://daojia.jingrunjia.com.cn/api/static/weixin/78.jpg";
+        this.wxSrc = "http://www.shhongzhiyun.com/api/static/weixin/78.jpg";
         break;
       }
       case "79": {
-        this.wxSrc = "http://daojia.jingrunjia.com.cn/api/static/weixin/79.jpg";
+        this.wxSrc = "http://www.shhongzhiyun.com/api/static/weixin/79.jpg";
         break;
       }
       case "92": {
-        this.wxSrc = "http://daojia.jingrunjia.com.cn/api/static/weixin/92.jpg";
+        this.wxSrc = "http://www.shhongzhiyun.com/api/static/weixin/92.jpg";
         break;
       }
       case "114": {
-        this.wxSrc = "http://daojia.jingrunjia.com.cn/api/static/weixin/114.jpg";
+        this.wxSrc = "http://www.shhongzhiyun.com/api/static/weixin/114.jpg";
         break;
       }
       default: {
-        this.wxSrc = "http://daojia.jingrunjia.com.cn/api/static/weixin/78.jpg";
+        this.wxSrc = "http://www.shhongzhiyun.com/api/static/weixin/78.jpg";
         break;
       }
     }

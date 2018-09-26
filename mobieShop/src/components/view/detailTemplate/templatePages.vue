@@ -649,7 +649,7 @@
                     //编码
                     let recommendedTeamId = this.$route.query.recommendedTeamId;
                     let recommendedAdminId = this.$route.query.recommendedAdminId;
-                    let url = "http://daojia.jingrunjia.com.cn/login?openId=null&company=114&recommendedTeamId="+recommendedTeamId+"&recommendedAdminId="+recommendedAdminId
+                    let url = "http://www.shhongzhiyun.com/login?openId=null&company=114&recommendedTeamId="+recommendedTeamId+"&recommendedAdminId="+recommendedAdminId
                     let selfUrl = encodeURIComponent(url);
                      
                      // Toast("申请授权中");
@@ -664,7 +664,7 @@
                             // alert(recommendedAdminId);
                             // alert(recommendedTeamId);
                             // let url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='+this.appid+
-                            //     '&redirect_uri=http://pay.jingrunjia.com.cn?company='+companyid
+                            //     '&redirect_uri=http://pay.shhongzhiyun.com?company='+companyid
                             //     +'&recommendedTeamId='+recommendedTeamId
                             //     +'&recommendedAdminId='+recommendedAdminId
                             //     +'&response_type=code&scope=snsapi_userinfo&state=STATE';
@@ -674,7 +674,7 @@
                                 recommendedAdminId:recommendedAdminId
                             };
                                 let url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='+this.appid+
-                                '&redirect_uri=http://pay.jingrunjia.com.cn?json='+JSON.stringify(json)
+                                '&redirect_uri=http://pay.shhongzhiyun.com?json='+JSON.stringify(json)
                                 +'&response_type=code&scope=snsapi_userinfo&state=STATE';
                             // let url=
                             //     'http://localhost:8082?company='+companyid

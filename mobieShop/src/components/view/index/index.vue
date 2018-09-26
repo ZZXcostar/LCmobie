@@ -278,7 +278,7 @@
                     if (flag) {
                         let companyid = sessionStorage.getItem('companyId');
                         let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + this.appid +
-                            '&redirect_uri=http://pay.jingrunjia.com.cn?company=' + companyid +
+                            '&redirect_uri=http://pay.shhongzhiyun.com?company=' + companyid +
                             '&response_type=code&scope=snsapi_userinfo&state=STATE';
                         location.href = url;
                     }

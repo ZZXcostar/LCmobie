@@ -387,11 +387,14 @@
                
                 if(isnum){
                     let num_hasappoint=0;
+                     let list_foreach=null;
                     if(data.appointments ==null){
-                         Toast('请联系客服无预约');   
+                      list_foreach = []
+                    }else{
+                       list_foreach = data.appointments
                     }
                     // let list=this.orderlist[this.typeindex_current][this.indexorder_current].orderDetails;
-                    let list_foreach=data.appointments;
+                   
                     list_foreach.forEach((item,key)=>{
                         console.log(item)
                         num_hasappoint+=(key!=data.index_appoint?item.number:0);

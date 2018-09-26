@@ -272,10 +272,10 @@
                     //      let recommendedTeamId =null;
                     //     let recommendedAdminId = null;
                     //     let openid= newParameters.openId
-                    //     location.href='http://daojia.jingrunjia.com.cn/login?openId='+openid+'&company='+companyID+'&recommendedTeamId='+recommendedTeamId+'&recommendedAdminId='+recommendedAdminId;
+                    //     location.href='http://www.shhongzhiyun.com/login?openId='+openid+'&company='+companyID+'&recommendedTeamId='+recommendedTeamId+'&recommendedAdminId='+recommendedAdminId;
                     // }else{
                     //   //编码
-                    //    let selfUrl = encodeURI("http://daojia.jingrunjia.com.cn/?company=114");
+                    //    let selfUrl = encodeURI("http://www.shhongzhiyun.com/?company=114");
                     //    Toast("申请授权中");
                     //    window.location.href="http://api.jingrunjia.com.cn:8887/public/test/service/getWxToken?callback_url=http%3a%2f%2fapi.jingrunjia.com.cn%3a8887%2fpublic%2ftest%2fservice%2fgetWxToken&redirect_uri="+selfUrl; 
                     // }
@@ -284,7 +284,7 @@
                     //编码
                     let recommendedTeamId = null;
                     let recommendedAdminId = null;
-                    let url = "http://daojia.jingrunjia.com.cn/login?openId=null&company=114&recommendedTeamId="+recommendedTeamId+"&recommendedAdminId="+recommendedAdminId
+                    let url = "http://www.shhongzhiyun.com/login?openId=null&company=114&recommendedTeamId="+recommendedTeamId+"&recommendedAdminId="+recommendedAdminId
                     let selfUrl = encodeURIComponent(url);
                      
                      // Toast("申请授权中");
@@ -300,7 +300,7 @@
                 //      let recommendedTeamId =null;
                 //      let recommendedAdminId = null;
                 //     let openid= sessionStorage.getItem('openid')
-                //     location.href='http://daojia.jingrunjia.com.cn/login?openId='+openid+'&company='+companyID+'&recommendedTeamId='+recommendedTeamId+'&recommendedAdminId='+recommendedAdminId;
+                //     location.href='http://www.shhongzhiyun.com/login?openId='+openid+'&company='+companyID+'&recommendedTeamId='+recommendedTeamId+'&recommendedAdminId='+recommendedAdminId;
                 // }, 500)
                 }else{
                     this.getAppId().then(flag=>{
@@ -312,11 +312,11 @@
                             recommendedAdminId:null
                         };
                         let url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='+this.appid+
-                        '&redirect_uri=http://pay.jingrunjia.com.cn?json='+JSON.stringify(json)
+                        '&redirect_uri=http://pay.shhongzhiyun.com?json='+JSON.stringify(json)
                         +'&response_type=code&scope=snsapi_userinfo&state=STATE';
 
                         // let url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='+this.appid+
-                        //     '&redirect_uri=http://pay.jingrunjia.com.cn?company='+companyid+
+                        //     '&redirect_uri=http://pay.shhongzhiyun.com?company='+companyid+
                         //     '&response_type=code&scope=snsapi_userinfo&state=STATE ';
                         location.href=url;
                             // this.$router.replace(url);

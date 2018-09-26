@@ -337,7 +337,7 @@ export default {
                                 else{
                                     this.$router.push('/index');
                                 }
-                                // location.href='http://daojia.jingrunjia.com.cn';
+                                // location.href='http://www.shhongzhiyun.com';
                                 // t
                             }
                             else{
