@@ -132,6 +132,7 @@
     </div>
 </template>
 <script>
+import { Toast } from 'mint-ui'
 export default {
     data(){
         return {
@@ -152,25 +153,28 @@ export default {
             method: "post",
             data:[id],
         }).then((res) => {
-            var data=res.data.info
-            console.log(data)
-            var list={}
-            var additmes={}  //增项数据
-            additmes.remark=data.EntrySignAdditmes.list[0].remark
-            additmes.hydropower=this.listSet(data.EntrySignAdditmes.list[0].hydropower)
-            additmes.tiler=this.listSet(data.EntrySignAdditmes.list[0].tiler)
-            additmes.paint=this.listSet(data.EntrySignAdditmes.list[0].paint)
-            additmes.waterproof=this.listSet(data.EntrySignAdditmes.list[0].waterproof)
-            additmes.carpentry=this.listSet(data.EntrySignAdditmes.list[0].carpentry)
-            additmes.rest=this.listSet(data.EntrySignAdditmes.list[0].rest)
-            list.additmes=additmes
-            list.materials=data.EntrySignMaterials.list[0]
-            list.suggest=data.EntrySignSuggest.list[0]
-            list.suggest.drawing=this.listSet(list.suggest.drawing)
-            list.contract=data.EntrySignContract.list[0]
-            list.matter=data.EntrySignMatter.list[0]
-            console.log(list)
-            that.datalist=list
+            if(res.data.status==200){
+                var data=res.data.info
+                console.log(data)
+                var list={}
+                var additmes={}  //增项数据
+                additmes.remark=data.EntrySignAdditmes.list[0].remark
+                additmes.hydropower=this.listSet(data.EntrySignAdditmes.list[0].hydropower)
+                additmes.tiler=this.listSet(data.EntrySignAdditmes.list[0].tiler)
+                additmes.paint=this.listSet(data.EntrySignAdditmes.list[0].paint)
+                additmes.waterproof=this.listSet(data.EntrySignAdditmes.list[0].waterproof)
+                additmes.carpentry=this.listSet(data.EntrySignAdditmes.list[0].carpentry)
+                additmes.rest=this.listSet(data.EntrySignAdditmes.list[0].rest)
+                list.additmes=additmes
+                list.materials=data.EntrySignMaterials.list[0]
+                list.suggest=data.EntrySignSuggest.list[0]
+                list.suggest.drawing=this.listSet(list.suggest.drawing)
+                list.contract=data.EntrySignContract.list[0]
+                list.matter=data.EntrySignMatter.list[0]
+                that.datalist=list
+            }else{
+                Toast(res.data.msg)
+            }
         });
     },
     methods:{

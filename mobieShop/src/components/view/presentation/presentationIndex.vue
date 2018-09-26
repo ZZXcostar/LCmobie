@@ -22,6 +22,7 @@
     </div>
 </template>
 <script>
+import { Toast } from 'mint-ui'
 export default {
     data(){
         return {
@@ -45,7 +46,9 @@ export default {
             console.log(res.data.info)
             if(res.data.status==200){
                 that.datainfo=res.data.info
-            }
+            }else{
+                Toast(res.data.msg);
+            }   
         });
     },
     methods:{
@@ -54,8 +57,22 @@ export default {
         },
         supervisor(index){  //跳转到监理报告列表
             let id=this.datainfo[index].id
-            sessionStorage.setItem('presentationInfo',JSON.stringify(this.datainfo[index]))  
-            this.$router.push('/supervisorList?company=92&id='+id);
+            this.$http({
+                url: "/api/public/entryreport/queryMapByProjectIds",
+                method: "post",
+                data:[id],
+            }).then((res) => {
+                var data=res.data.info
+                console.log(data)
+                if(data.length==0){
+                    Toast('此项目未生成节点');
+                    that.$router.go(-1);
+                }else{
+                    sessionStorage.setItem('presentationInfo',JSON.stringify(this.datainfo[index]))  
+                    this.$router.push('/supervisorList?company=92&id='+id);
+                }
+            });
+            
         },
         companion(index){  //跳转到陪签报告
             let id=this.datainfo[index].id
@@ -67,7 +84,6 @@ export default {
             sessionStorage.setItem('presentationInfo',JSON.stringify(this.datainfo[index]))
             this.$router.push('/finalAccounts?company=92&id='+id);
         },
-        
     }
 }
 </script>

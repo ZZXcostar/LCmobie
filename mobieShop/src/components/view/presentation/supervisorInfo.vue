@@ -76,9 +76,8 @@ export default {
         }).then((res) => {
             var data1=res.data.info.list[0]
             console.log(data1)
-            if(data1.entryReportStandards[0].isService==3){
-              Toast('此节点还未有报告上传');
-              that.$router.go(-1);
+            if(res.data.status!=200){
+              Toast(res.data.msg);
             }else{
               data1.entryReportStandards[0].imgs=that.listSet(data1.entryReportStandards[0].imgs)
               for(let i in data1.entryReportStandards[0]){
@@ -92,10 +91,7 @@ export default {
                 that.selected='1'
               }
               that.datalist=data1
-              console.log(that.datalist)
-            }
-            
-            
+            }    
         });
   },
   components: {

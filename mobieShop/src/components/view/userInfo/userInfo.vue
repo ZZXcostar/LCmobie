@@ -419,7 +419,24 @@
                             break;
                         }
                         case 'report':{
-                            this.$router.push('/presentationIndex');
+                            var that=this
+                            // alert(this.$route.query.openId)
+                            //请求报告数据
+                            var phone=sessionStorage.getItem('phone')
+                            console.log(phone)
+                            this.$http({
+                                url: "/api/product/ProjectEstablish/queryListByOrderInfoPhone?phone="+phone,
+                                method: "post",
+                                data:{},
+                            }).then((res) => {
+                                console.log(res.data.info)
+                                if(res.data.info!=0){
+                                    this.$router.push('/presentationIndex');
+                                }else{
+                                    Toast('您还未在我们平台下过单！');
+                                    that.$router.go(-1);
+                                }
+                            });
                             break;
                         }
                         default:{
