@@ -168,7 +168,6 @@ export default {
                     if (dd >= 1) {
                         dd -= 1
                         that.time= dd + "S"
-                        
                     } else if (dd <= 0) {
                         clearInterval(timer)
                         that.time= "从新发送"   

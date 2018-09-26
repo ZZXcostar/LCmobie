@@ -30,15 +30,12 @@ export default {
             data:[id],
         }).then((res) => {
             var data=res.data.info
-            console.log(data)
-            if(data.length==0){
-                Toast('此项目未生成节点');
-                that.$router.go(-1);
-            }else{
-                
+            console.log(res)
+            if(res.data.status==200){
                 that.datalist=data
-            }
-            
+            }else{
+                Toast(res.data.msg);
+            }    
         });
     },
     methods:{
@@ -47,7 +44,19 @@ export default {
         },
         toSupInfo(id,name){
             console.log(id)
-            this.$router.push('/supervisorInfo?company=92&id='+id+'&name='+name);
+            var that=this
+            this.$http({
+            url: "/api/public/entryreport/queryByIds",
+            method: "post",
+            data:[id],
+            }).then((res) => {
+                var data1=res.data.info.list[0]
+                if(data1.entryReportStandards[0].isService==3){
+                    Toast('此节点还未有报告上传');
+                }else{
+                    that.$router.push('/supervisorInfo?company=92&id='+id+'&name='+name);
+                }    
+            });
         }
     }
 }
