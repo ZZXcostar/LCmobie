@@ -213,8 +213,6 @@ export default {
         }
         let openid=this.$route.query.openId;
         this.openId=openid;
-
-         
         // console.log(this.$route.query.data)
             let newCompanydata = this.$route.query.data;
             if(newCompanydata != undefined){
@@ -328,6 +326,7 @@ export default {
                                 iconClass: 'icon icon-success',
                                 duration: 500
                             });
+                            sessionStorage.setItem('phone',that.phone)
                             let fromgo=sessionStorage.getItem('fromgo');
                             // let fromgo='/order'
                             
@@ -422,6 +421,7 @@ export default {
                                     iconClass: 'icon icon-success',
                                     duration: 500
                                 });
+                                sessionStorage.setItem('phone',that.phone)
                                 let fromgo=sessionStorage.getItem('fromgo');
                               //  console.log(fromgo)
                                 if(fromgo==null){
@@ -519,6 +519,7 @@ export default {
                                     iconClass: 'icon icon-success',
                                     duration: 500
                                 });
+                                sessionStorage.setItem('phone',that.phone)
                                 let fromgo=sessionStorage.getItem('fromgo');
                                 
                                 if(fromgo==null){
@@ -553,12 +554,14 @@ export default {
         },
         // 获取验证码
         getcode(type){
+            var that=this
             if(this.second=='获取验证码'){
                 if(this.phonejson.status){
                     let that=this;
                     this.$http.post('/api/customer/resource/sendSmsCode?mobile='+that.phone+'&type='+type)
                     .then(function(response){
                         Toast(response.data.msg);
+                        sessionStorage.setItem('phone',that.phone)
                         that.second=60;
                         that.countDown();
                     })
@@ -683,7 +686,10 @@ export default {
     background-size: cover;
 }
 .contain{
+    /* position: fixed; */
     height:100vh;
+    /* width: 100%; */
+    background: #fff;
 }
 .form{
     background-color: rgba(255,255,255,.9);
@@ -775,8 +781,8 @@ export default {
     left: 0;
     right:0;
     font-size: 0.3rem;
-    position: absolute;
-    bottom: 0rem;
+    position: fixed;
+    bottom: 0px;
     /* margin-top: 1rem; */
     /* margin-left: -1rem; */
     display: block;

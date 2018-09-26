@@ -368,5 +368,59 @@ export default new Router({
             },
             component: resolve => require(['../components/view/eventTemplate/templatePages.vue'], resolve)
         },
+        {
+            path: '/presentationLogin', // 报告登录
+            name: 'presentationLogin',
+            meta: {
+                title: '报告登录',
+                requireAuth:true
+            },
+            component: resolve => require(['../components/view/presentation/presentationLogin.vue'], resolve)
+        },
+        {
+            path: '/presentationIndex', // 报告首页
+            name: 'presentationIndex',
+            meta: {
+                title: '报告首页',
+                requireAuth:false
+            },
+            component: resolve => require(['../components/view/presentation/presentationIndex.vue'], resolve)
+        },
+        {
+            path: '/companionReport', // 陪签报告
+            name: 'companionReport',
+            meta: {
+                title: '陪签报告',
+                requireAuth:true
+            },
+            component: resolve => require(['../components/view/presentation/companionReport.vue'], resolve)
+        },
+        {
+            path: '/supervisorList', // 监理报告列表
+            name: 'supervisorList',
+            meta: {
+                title: '监理报告列表',
+                requireAuth:true
+            },
+            component: resolve => require(['../components/view/presentation/supervisorList.vue'], resolve)
+        },
+        {
+            path: '/finalAccounts', // 决算报告
+            name: 'finalAccounts',
+            meta: {
+                title: '决算报告',
+                requireAuth:true
+            },
+            component: resolve => require(['../components/view/presentation/finalAccounts.vue'], resolve)
+        },
+        {
+            path: '/supervisorInfo', // 监理报告详情
+            name: 'supervisorInfo',
+            meta: {
+                title: '监理报告详情',
+                requireAuth:true
+            },
+            component: resolve => require(['../components/view/presentation/supervisorInfo.vue'], resolve)
+        },
     ]
 })

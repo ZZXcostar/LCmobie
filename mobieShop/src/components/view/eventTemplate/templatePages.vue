@@ -85,7 +85,7 @@ import Mint from 'mint-ui';
                         companyId = sessionStorage.getItem("companyId");
                     }
                     sessionStorage.setItem("companyId",companyId);
-                    ///////////////查询活动对应活动模板的信息/////////////
+                    ///////////////查询活动对应活动模板的信息/////////////   
 
                     this.$http.post('/api/product/mall/template/queryMap/mall',
                         {

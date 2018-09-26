@@ -137,7 +137,7 @@
                         <!-- <router-link to=''> -->
                             <i class='icon iconfont icon-fapiao fontSize operaicon font'></i>
                             <i class='flag'></i>
-                            <p class='name_opera'>服务报告更新</p>
+                            <p class='name_opera'>服务报告</p>
                         <!-- </router-link> -->
                     </li>
                     <li @click='toLink("invite")'>
@@ -346,8 +346,6 @@
                         Toast('appid获取失败');
                     })
                 })
-                
-                
             },
             integral(){
                 let that = this
@@ -421,7 +419,7 @@
                             break;
                         }
                         case 'report':{
-                            Toast('该功能正在开发，请耐心等待。。。');
+                            this.$router.push('/presentationIndex');
                             break;
                         }
                         default:{
