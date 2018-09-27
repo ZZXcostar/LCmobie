@@ -15,7 +15,7 @@
                 <span class="getcode"  @click="getCode">{{time}}</span>
                 <p class='error'></p>
             </div>
-            <p class="tishi"><i class='icon iconfont icon-zheng font2'></i> 业主可根据手机号查询订单报告</p>
+            <!-- <p class="tishi"><i class='icon iconfont icon-zheng font2'></i> 业主可根据手机号查询订单报告</p> -->
             <p class='opera_quick'>
                 <mt-button type="default" class='btn-login button' @click="loginquick">快速登录</mt-button>
             </p>
@@ -45,9 +45,8 @@ export default {
     },
     created(){
         this.$root.$emit('header', '登录');
-        var isOne=sessionStorage.getItem('isOne')
-        if(isOne==null){   //第一次进入页面获取openid
-           this.getAppId().then(flag=>{  //zhonzhonye 
+        if(this.$route.query.openId==null){   //第一次进入页面获取openid
+            this.getAppId().then(flag=>{  //zhonzhonye 
             if(flag){
                 let json={
                     company:92,
@@ -58,7 +57,6 @@ export default {
                 console.log(JSON.stringify(json))
                 let url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='+this.appid
                     +'&redirect_uri=http://pay.shhongzhiyun.com/?json='+JSON.stringify(json)+'&response_type=code&scope=snsapi_userinfo&state=STATE';
-                    sessionStorage.setItem('isOne',true)
                     location.href=url;
                 }
             });
@@ -76,6 +74,7 @@ export default {
             var that=this
             if(reg.test(that.phone)){
                  if(that.logorreg==2){  //有账号登录
+                    alert('登录')
                     this.$http({
                         url: "/api/customer/account/quickLogin?mobile="+that.phone+"&code="+that.code,
                         method: "post",

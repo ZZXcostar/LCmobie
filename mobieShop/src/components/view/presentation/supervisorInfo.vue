@@ -66,6 +66,8 @@ export default {
     this.$root.$emit("header", this.$route.query.name);
     var data=sessionStorage.getItem("presentationInfo")
     data=JSON.parse(data)
+    data.workList.createTime=data.workList.createTime.split('.')
+    data.workList.createTime=data.workList.createTime[0]
     this.dataInfo=data
     let id=this.$route.query.id
     console.log(data)
@@ -112,7 +114,7 @@ export default {
     },
     clickImg(e) {
         this.showImg = true;
-        console.log(e.currentTarget.src)
+        console.log(e.currentTarget.src)  
         // 获取当前图片地址
         this.imgSrc = e.currentTarget.src;
     },
