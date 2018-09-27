@@ -43,7 +43,7 @@ export default {
           condition: 500
         }
       ],
-      showbackcover: true,
+      showbackcover: false,//领取优惠券弹层
       phone: null
     };
   },
