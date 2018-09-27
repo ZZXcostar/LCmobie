@@ -14,10 +14,10 @@
             <span>报告列表</span>
         </div>
         <div class="content">
-            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.serviceStateName=='陪签'" src="../../../../static/images/presentation1.png" alt="" @click="companion(index)">
-            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.serviceStateName=='决算'" src="../../../../static/images/presentation2.png" alt="" @click="finalAccounts(index)">
-            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.serviceStateName=='监理'" src="../../../../static/images/presentation3.png" alt="" @click="supervisor(index)">
-            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.serviceStateName=='规划'" src="../../../../static/images/presentation4.png" alt="">
+            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='陪签'" src="../../../../static/images/presentation1.png" :alt="item.orderDetail.commodityName" @click="companion(index)">
+            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='决算'" src="../../../../static/images/presentation2.png" :alt="item.orderDetail.commodityName" @click="finalAccounts(index)">
+            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='监理'" src="../../../../static/images/presentation3.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
+            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='规划'" src="../../../../static/images/presentation4.png" alt="">
         </div>
     </div>
 </template>
@@ -57,6 +57,7 @@ export default {
         },
         supervisor(index){  //跳转到监理报告列表
             let id=this.datainfo[index].id
+            var that=this
             this.$http({
                 url: "/api/public/entryreport/queryMapByProjectIds",
                 method: "post",
@@ -68,16 +69,37 @@ export default {
                     Toast('此项目未生成节点');
                     that.$router.go(-1);
                 }else{
-                    sessionStorage.setItem('presentationInfo',JSON.stringify(this.datainfo[index]))  
-                    this.$router.push('/supervisorList?company=92&id='+id);
+                    sessionStorage.setItem('presentationInfo',JSON.stringify(that.datainfo[index]))  
+                    that.$router.push('/supervisorList?company=92&id='+id);
                 }
             });
-            
         },
         companion(index){  //跳转到陪签报告
             let id=this.datainfo[index].id
-            sessionStorage.setItem('presentationInfo',JSON.stringify(this.datainfo[index]))
-            this.$router.push('/companionReport?company=92&id='+id);
+            var that=this
+            this.$http({   //判断是否有报告
+            url: "/api/public/entrysignadditmes/queryByIdss?judge=false",
+            method: "post",
+            data:[id],
+            }).then((res) => {
+                if(res.data.status==200){
+                    let aa=0
+                    for(let i in res.data.info){
+                        if(res.data.info[i].list.length!=0){
+                            aa++
+                        }
+                    }
+                    console.log(aa)
+                    if(aa==5){
+                        sessionStorage.setItem('presentationInfo',JSON.stringify(that.datainfo[index]))
+                        that.$router.push('/companionReport?company=92&id='+id);
+                    }else{
+                        Toast('此项目还未有报告上传')
+                    }
+                }else{
+                    Toast(res.data.msg)
+                }
+            });
         },
         finalAccounts(index){ //跳转到决算报告
             let id=this.datainfo[index].id

@@ -171,6 +171,7 @@ export default {
                 list.suggest.drawing=this.listSet(list.suggest.drawing)
                 list.contract=data.EntrySignContract.list[0]
                 list.matter=data.EntrySignMatter.list[0]
+                console.log(list)
                 that.datalist=list
             }else{
                 Toast(res.data.msg)
