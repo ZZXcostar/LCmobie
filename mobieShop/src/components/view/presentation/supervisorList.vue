@@ -53,7 +53,9 @@ export default {
                 var data1=res.data.info.list[0]
                 if(data1.entryReportStandards[0].isService==3){
                     Toast('此节点还未有报告上传');
-                }else{
+                }else if(data1.entryReportStandards[0].isService==2){
+                    Toast('此节点是无需验收节点');
+                } else{
                     that.$router.push('/supervisorInfo?company=92&id='+id+'&name='+name);
                 }    
             });

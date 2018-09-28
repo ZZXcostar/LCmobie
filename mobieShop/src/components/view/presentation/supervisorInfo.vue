@@ -28,14 +28,16 @@
             <mt-tab-container v-model="selected" class="isimg">
                 <mt-tab-container-item id="1">
                     <mt-cell :title="'检测说明：'+datalist.entryReportStandards[0].instructions" />
-                    <img v-if="selected==2" v-for="item in datalist.entryReportStandards[0].imgs" @click="clickImg($event)" :src="item" alt="">
+                    <div class="imglist" v-if="selected==1" v-for="item in datalist.entryReportStandards[0].imgs" @click="clickImg($event)" :style="'background-image:url('+item+')'" :data-img='item'></div>
+                    <!-- <img v-if="selected==1" v-for="item in datalist.entryReportStandards[0].imgs" @click="clickImg($event)" :src="item"> -->
                 </mt-tab-container-item>
                 <mt-tab-container-item id="2">
                     <mt-cell :title="'检测说明：'+datalist.entryReportStandards[0].instructions" />
                     <mt-cell :title="'施工隐患：'+datalist.entryReportStandards[0].hdanger" />
                     <mt-cell :title="'解决方案：'+datalist.entryReportStandards[0].solution" />
                     <mt-cell :title="'解决方法：'+datalist.entryReportStandards[0].solutionf" />
-                    <img v-if="selected==2" v-for="item in datalist.entryReportStandards[0].imgs" @click="clickImg($event)" :src="item" alt="">
+                    <div class="imglist" v-if="selected==2" v-for="item in datalist.entryReportStandards[0].imgs" @click="clickImg($event)" :style="'background-image:url('+item+')'" :data-img='item'></div>
+                    <!-- <img v-if="selected==2" v-for="item in datalist.entryReportStandards[0].imgs" @click="clickImg($event)" :src="item"> -->
                 </mt-tab-container-item>
             </mt-tab-container>
             
@@ -70,14 +72,14 @@ export default {
     data.workList.createTime=data.workList.createTime[0]
     this.dataInfo=data
     let id=this.$route.query.id
-    console.log(data)
+    // console.log(data)
     this.$http({
             url: "/api/public/entryreport/queryByIds",
             method: "post",
             data:[id],
         }).then((res) => {
             var data1=res.data.info.list[0]
-            console.log(data1)
+            // console.log(data1)
             if(res.data.status!=200){
               Toast(res.data.msg);
             }else{
@@ -114,9 +116,9 @@ export default {
     },
     clickImg(e) {
         this.showImg = true;
-        console.log(e.currentTarget.src)  
+        // console.log(e.target.dataset.img)  
         // 获取当前图片地址
-        this.imgSrc = e.currentTarget.src;
+        this.imgSrc = e.target.dataset.img;
     },
     viewImg(){
         this.showImg = false;
@@ -206,9 +208,20 @@ export default {
 }
 .isimg{
   font-size: 0.26rem !important;
+  width: 98% !important;
+  margin: 0 auto;
+}
+.isimg .imglist{
+  width: 48%;
+  height: 3.5rem;
+  margin: 0.1rem 1%;
+  float: left;
+  background-position:center;
+  background-size:cover 
 }
 .isimg img{
-  width: 50%;
+  width: 48%;
+  margin: 0.1rem 1%;
 }
 </style>
 

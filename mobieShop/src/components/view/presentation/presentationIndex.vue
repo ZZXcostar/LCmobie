@@ -4,8 +4,8 @@
             <div class="userInfo">
                 <img src="../../../../static/images/header.png" alt="">
                 <div class="text">
-                    <p><i class="icon iconfont icon-yonghu"></i>{{datainfo[0].name}}</p>
-                    <p><i class="icon iconfont icon-weibiaoti"></i>{{datainfo[0].orderDetail.phone}}</p>
+                    <p><i class="icon iconfont icon-yonghu"></i>{{userInfo.nickname==null?datainfo[0].name:userInfo.nickname}}</p>
+                    <p><i class="icon iconfont icon-weibiaoti"></i>{{userInfo.mobile}}</p>
                 </div>
             </div>
         </div>
@@ -23,11 +23,13 @@
 </template>
 <script>
 import { Toast } from 'mint-ui'
+import {operatelocalstorage} from '../../../assets/javascript/localstorage_hasdata.js'
 export default {
     data(){
         return {
            appid:'',
            datainfo:'',
+           userInfo:''
         }
     },
     created(){
@@ -36,14 +38,16 @@ export default {
         var that=this
         // alert(this.$route.query.openId)
         //请求报告数据
-        var phone=sessionStorage.getItem('phone')
-        console.log(phone)
+        let userInfo=JSON.parse(operatelocalstorage('userinfo',null,'get',null))
+        this.userInfo=userInfo
+        var phone=userInfo.mobile
         this.$http({
             url: "/api/product/ProjectEstablish/queryListByOrderInfoPhone?phone="+phone,
             method: "post",
             data:{},
         }).then((res) => {
-            console.log(res.data.info)
+            // console.log(res.data.info)
+            console.log(res.data)
             if(res.data.status==200){
                 that.datainfo=res.data.info
             }else{
@@ -64,7 +68,8 @@ export default {
                 data:[id],
             }).then((res) => {
                 var data=res.data.info
-                console.log(data)
+                
+                // console.log(data)
                 if(data.length==0){
                     Toast('此项目未生成节点');
                     that.$router.go(-1);
@@ -89,7 +94,7 @@ export default {
                             aa++
                         }
                     }
-                    console.log(aa)
+                    // console.log(aa)
                     if(aa==5){
                         sessionStorage.setItem('presentationInfo',JSON.stringify(that.datainfo[index]))
                         that.$router.push('/companionReport?company=92&id='+id);

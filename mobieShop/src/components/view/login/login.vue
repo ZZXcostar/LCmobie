@@ -313,7 +313,7 @@ export default {
                                             window.location.href = "http://www.house178.com/qbfc/coupon/service/index?memberId="+memberId+"&phone="+phone+"&openId="+openIds
                                     }
                                 }
-
+                        console.log(data)
                         operatelocalstorage('userinfo',JSON.stringify(data),'set',300);
                         // sessionStorage.setItem('userinfo', JSON.stringify(data));
                         // this.$store.commit('login',res.data.info)
@@ -326,7 +326,6 @@ export default {
                                 iconClass: 'icon icon-success',
                                 duration: 500
                             });
-                            sessionStorage.setItem('phone',that.phone)
                             let fromgo=sessionStorage.getItem('fromgo');
                             // let fromgo='/order'
                             
@@ -338,7 +337,6 @@ export default {
                                     this.$router.push('/index');
                                 }
                                 // location.href='http://www.shhongzhiyun.com';
-                                // t
                             }
                             else{
                                 that.$router.push(fromgo);
@@ -421,7 +419,6 @@ export default {
                                     iconClass: 'icon icon-success',
                                     duration: 500
                                 });
-                                sessionStorage.setItem('phone',that.phone)
                                 let fromgo=sessionStorage.getItem('fromgo');
                               //  console.log(fromgo)
                                 if(fromgo==null){
@@ -519,7 +516,6 @@ export default {
                                     iconClass: 'icon icon-success',
                                     duration: 500
                                 });
-                                sessionStorage.setItem('phone',that.phone)
                                 let fromgo=sessionStorage.getItem('fromgo');
                                 
                                 if(fromgo==null){
@@ -561,7 +557,6 @@ export default {
                     this.$http.post('/api/customer/resource/sendSmsCode?mobile='+that.phone+'&type='+type)
                     .then(function(response){
                         Toast(response.data.msg);
-                        sessionStorage.setItem('phone',that.phone)
                         that.second=60;
                         that.countDown();
                     })
