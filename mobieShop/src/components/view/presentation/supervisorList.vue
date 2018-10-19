@@ -2,7 +2,7 @@
     <div class='contain' v-touch:left="onSwipeLeft">
         <div class="header"></div>
         <div class="content">
-            <p @click="toSupInfo(item.id,item.reportname)" v-for="(item,index) in datalist"><span>{{item.reportname}}</span><i class="icon iconfont icon-youjiantou1"></i></p>
+            <p @click="toSupInfo(item.id,item.reportname,index)" v-for="(item,index) in datalist"><span>{{item.reportname}}  ({{item.okCount==null? '0':item.okCount}}/{{item.reportCount}})</span><i class="icon iconfont icon-youjiantou1"></i></p>
         </div>
     </div>
 </template>
@@ -40,25 +40,33 @@ export default {
     },
     methods:{
         onSwipeLeft(){ //左滑上一页
-            this.$router.go(-1)
+            // this.$router.go(-1)
+            this.$router.back(-1)
         },
-        toSupInfo(id,name){
+        toSupInfo(id,name,index){
             console.log(id)
             var that=this
-            this.$http({
-            url: "/api/public/entryreport/queryByIds",
-            method: "post",
-            data:[id],
-            }).then((res) => {
-                var data1=res.data.info.list[0]
-                if(data1.entryReportStandards[0].isService==3){
-                    Toast('此节点还未有报告上传');
-                }else if(data1.entryReportStandards[0].isService==2){
-                    Toast('此节点是无需验收节点');
-                } else{
-                    that.$router.push('/supervisorInfo?company=92&id='+id+'&name='+name);
-                }    
-            });
+            // if(that.datalist[index].okCount==that.datalist[index].reportCount){
+            //     that.$router.push('/supervisorInfo?company=92&id='+id+'&name='+name);
+            // }else if(that.datalist[index].reportCount==1){
+                this.$http({
+                url: "/api/public/entryreport/queryByIds",
+                method: "post",
+                data:[id],
+                }).then((res) => {
+                    var data1=res.data.info.list[0]
+                    if(data1.entryReportStandards[0].isService==3){
+                        Toast('此节点还未有报告上传');
+                    }else if(data1.entryReportStandards[0].isService==2){
+                        Toast('此节点是无需验收节点');
+                    } else{
+                        that.$router.push('/supervisorInfo?company=92&id='+id+'&name='+name);
+                    }    
+                });
+            // }else{
+            //     Toast('此节点还未有完整报告上传');
+            // }
+            
         }
     }
 }
@@ -69,7 +77,7 @@ export default {
     height:100vh;
     background-color:#fff; 
 }
-.header{
+.contain .header{
     width: 100%;
     height: 2.2rem;
     background-image: url('../../../../static/images/presentation3.png');
@@ -78,12 +86,12 @@ export default {
     overflow: hidden;
     box-shadow: 0 0 0.1rem 0.01rem #cccccc;
 }
-.content{
+.contain .content{
     width: 100%;
     padding-top: 0.05rem;
     text-align: left;
 }
-.content p{
+.contain .content p{
     width: 100%;
     height: 0.8rem;
     line-height: 0.8rem;
@@ -94,7 +102,7 @@ export default {
     text-indent: 0.52rem;
     position: relative;
 }
-.content p i{
+.contain .content p i{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

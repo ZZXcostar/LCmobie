@@ -19,7 +19,7 @@
         <div class='form login' v-show='loginflag'>
             <div class="phone">
                 <i class='icon iconfont icon-shouji font'></i>
-                <input type="number" placeholder="手机号码" v-model="phone" key='phone_login' @change='checkphone()' @focus="focus_input" @blur="blur_input">
+                <input type="tel" placeholder="手机号码" v-model="phone" key='phone_login' @change='checkphone()' @focus="focus_input" @blur="blur_input">
                 <p class='error'>{{phonejson.msg}}</p>
             </div>
             <div class="psw">
@@ -29,7 +29,7 @@
             </div>
             <div class="verificationcode">
                 <i class='icon iconfont icon-key font'></i>
-                <input type="text" class='codeinput' id='codelogin' placeholder="验证码" v-model="code" @change='checkcode()' @focus="focus_input" @blur="blur_input">
+                <input type="number" class='codeinput' id='codelogin' placeholder="验证码" v-model="code" @change='checkcode()' @focus="focus_input" @blur="blur_input">
                 <p class='error'>{{codejson.msg}}</p>
                 <div id='codeimg' class='codeimg font border' @click='yzn'>{{codehas}}</div>
             </div>
@@ -51,7 +51,7 @@
             </div>
             <div class="verificationcode">
                 <i class='icon iconfont icon-key font'></i>
-                <input type="text" class='codeinput' placeholder="验证码" v-model="code" @focus="focus_input" @blur="blur_input">
+                <input type="number" class='codeinput' placeholder="验证码" v-model="code" @focus="focus_input" @blur="blur_input">
                 <p class='error'></p>
                 <router-link :to="linkURL" style='position:absolute;font-size:.3rem;top:.6rem;right:.2rem;'  @click.native='getcode(2)'>{{second}}</router-link>
             </div>
@@ -70,7 +70,7 @@
             </div>
             <div class="verificationcode">
                 <i class='icon iconfont icon-key font'></i>
-                <input type="text" class='codeinput' placeholder="验证码" v-model="code" @focus="focus_input" @blur="blur_input">
+                <input type="number" class='codeinput' placeholder="验证码" v-model="code" @focus="focus_input" @blur="blur_input">
                 <p class='error'></p>
                 <router-link :to="linkURL"  style='position:absolute;font-size:.3rem;top:.6rem;right:.2rem;'  @click.native='getcode(1)'>{{second}}</router-link>
             </div>

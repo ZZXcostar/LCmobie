@@ -68,7 +68,6 @@ export default {
                 data:[id],
             }).then((res) => {
                 var data=res.data.info
-                
                 // console.log(data)
                 if(data.length==0){
                     Toast('此项目未生成节点');
@@ -120,25 +119,25 @@ export default {
     height:100vh;
     background-color:#fff; 
 }
-.header{
+.contain .header{
     width: 100%;
     height: 2.2rem;
     background-image: url('../../../../static/images/indexTopbg.png');
     background-size: cover;
     overflow: hidden;
 }
-.userInfo{
+.contain .userInfo{
     width: 4.1rem;
     margin-left: 0.78rem;
     margin-top:0.4rem;
     text-align: left
 }
-.userInfo img{
+.contain .userInfo img{
     width: 1.5rem;
     height: 1.5rem;
     float: left;
 }
-.userInfo .text{
+.contain .userInfo .text{
     float: left;
     font-size: 0.28rem;
     line-height: 0.56rem;
@@ -146,10 +145,10 @@ export default {
     margin-left: 0.3rem;
     padding-top: 0.2rem;
 }
-.userInfo .text i{
+.contain .userInfo .text i{
     margin-right: 0.1rem;
 }
-.title{
+.contain .title{
     width: 100%;
     height: 0.83rem;
     border-bottom: 0.02rem solid #e4e4e4;
@@ -160,19 +159,19 @@ export default {
     color: #333;
     text-align: left;
 }
-.title i{
+.contain .title i{
     margin-right: 0.1rem;
     float: left;
     color: #11b786;
     font-size: 0.42rem;
 }
-.content{
+.contain .content{
     width: 93%;
     padding: 0.18rem;
     overflow: hidden;
     margin: 0 auto;
 }
-.content img{
+.contain .content img{
     display: block;
     border-radius: 0.12rem;
     width: 100%;

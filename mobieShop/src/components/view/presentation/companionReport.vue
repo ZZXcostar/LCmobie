@@ -195,7 +195,7 @@ export default {
     overflow: hidden;
     background-color:#f5f5f5; 
 }
-.box{
+.contain.box{
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 0.15rem;
@@ -203,66 +203,66 @@ export default {
     background: #ffffff;
     text-align: left;
 }
-.box .title{
+.contain .box .title{
     width: 100%;
     color: #333;
     border-bottom: 0.01rem solid #e6e6e6;
     padding:0.23rem 0 0.23rem 0.33rem;
 }
-.box .title p{
+.contain .box .title p{
     border-left:0.06rem solid #11b786;
     padding-left:  0.09rem;
     font-size: 0.28rem;
     text-align: left
 }
-.box .text{
+.contain .box .text{
     line-height: 0.35rem;
     color: #666666;
     font-size: 0.26rem;
     padding: 0.1rem 0;
 }
-.box .text>span{
+.contain .box .text>span{
     margin-left: 0.45rem;
     padding: 0.1rem 0;
     display: block;
     width: 3.2rem;
     float: left;
 }
-.box .text div>span{
+.contain .box .text div>span{
     display: block;
     float: left;
 }
-.box .text div{
+.contain .box .text div{
     clear: both;
     margin-left: 0.45rem;
     padding: 0.1rem 0;
     overflow: hidden;
 }
-.box .text div p{
+.contain .box .text div p{
     width: 5.54rem;
     float: left;
 }
-.project{
+.contain .project{
     font-size: 0.26rem;
     padding: 0.2rem 0.45rem;
     box-sizing: border-box;
     line-height: 0.4rem;
     border-bottom: 0.01rem solid #e6e6e6;
 }
-.project i{
+.contain .project i{
     font-size: 0.2rem;
     margin-right:0.1rem;
 }
-.project p{
+.contain .project p{
     width: 98%;
     margin: 0 auto;
     position: relative;
 }
-.project .pr{
+.contain .project .pr{
     box-sizing: border-box;
     padding-right: 1rem;
 }
-.logo{
+.contain .logo{
     width: 100%;
     height: 1rem;
     background-image: url('../../../../static/images/logoB.png');
@@ -270,7 +270,7 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
 }
-.istrue{
+.contain .istrue{
     position: absolute;
     width: 0.9rem;
     display: block;
@@ -278,10 +278,10 @@ export default {
     right: 0px;
     top: 0px;
 }
-.flex{
+.contain .flex{
     overflow: hidden;
 }
-.flex p{
+.contain .flex p{
     display:block;
     float: left;
     box-sizing: border-box;

@@ -70,7 +70,7 @@ export default {
     overflow: hidden;
     background-color:#f5f5f5; 
 }
-.box{
+.contain .box{
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 0.15rem;
@@ -78,46 +78,46 @@ export default {
     background: #ffffff;
     text-align: left;
 }
-.box .title{
+.contain .box .title{
     width: 100%;
     color: #333;
     border-bottom: 0.01rem solid #e6e6e6;
     padding:0.23rem 0 0.23rem 0.33rem;
 }
-.box .title p{
+.contain .box .title p{
     border-left:0.06rem solid #11b786;
     padding-left:  0.09rem;
     font-size: 0.28rem;
     text-align: left
 }
-.box .text{
+.contain .box .text{
     line-height: 0.35rem;
     color: #666666;
     font-size: 0.24rem;
     padding: 0.1rem 0;
 }
-.box .text>span{
+.contain .box .text>span{
     margin-left: 0.45rem;
     padding: 0.1rem 0;
     display: block;
     width: 3.05rem;
     float: left;
 }
-.box .text div>span{
+.contain .box .text div>span{
     display: block;
     float: left;
 }
-.box .text div{
+.contain .box .text div{
     clear: both;
     margin-left: 0.45rem;
     padding: 0.1rem 0;
     overflow: hidden;
 }
-.box .text div p{
+.contain .box .text div p{
     width: 5.54rem;
     float: left;
 }
-.project{
+.contain .project{
     font-size: 0.24rem;
     padding: 0.2rem 0.45rem;
     box-sizing: border-box;
@@ -125,16 +125,16 @@ export default {
     border-bottom: 0.01rem solid #e6e6e6;
     overflow: hidden;
 }
-.project p{
+.contain .project p{
     margin-bottom: 0.26rem;
 }
-.project img{
+.contain .project img{
     width: 46%;
     float: left;
     margin: 0.1rem 1%;
 }
 
-.logo{
+.contain .logo{
     width: 100%;
     height: 1rem;
     background-image: url('../../../../static/images/logoB.png');

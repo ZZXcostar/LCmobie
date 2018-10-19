@@ -20,28 +20,31 @@
                 <div><span>验收时间：</span><p>{{dataInfo.workList.createTime}}</p></div>
             </div>
         </div>
-        <div class="box">
-            <mt-navbar class="nevbar" v-model="selected">
+        <div class="box" v-for="item in datalist.entryReportStandards">
+            <div class="title">
+                <p>{{"【"+item.items+"】"+item.point}}</p>
+            </div>
+            <mt-navbar class="nevbar" v-model="item.selected">
                 <mt-tab-item id="1">合格</mt-tab-item>
                 <mt-tab-item id="2">不合格</mt-tab-item>
             </mt-navbar>
-            <mt-tab-container v-model="selected" class="isimg">
+            <mt-tab-container v-model="item.selected" class="isimg">
                 <mt-tab-container-item id="1">
-                    <mt-cell :title="'检测说明：'+datalist.entryReportStandards[0].instructions" />
-                    <div class="imglist" v-if="selected==1" v-for="item in datalist.entryReportStandards[0].imgs" @click="clickImg($event)" :style="'background-image:url('+item+')'" :data-img='item'></div>
+                    <mt-cell :title="'检测说明：'+item.instructions" />
+                    <div class="imglist" v-for="ite in item.imgs" @click="clickImg($event)" :style="'background-image:url('+ite+')'" :data-img='ite'></div>
                     <!-- <img v-if="selected==1" v-for="item in datalist.entryReportStandards[0].imgs" @click="clickImg($event)" :src="item"> -->
                 </mt-tab-container-item>
                 <mt-tab-container-item id="2">
-                    <mt-cell :title="'检测说明：'+datalist.entryReportStandards[0].instructions" />
-                    <mt-cell :title="'施工隐患：'+datalist.entryReportStandards[0].hdanger" />
-                    <mt-cell :title="'解决方案：'+datalist.entryReportStandards[0].solution" />
-                    <mt-cell :title="'解决方法：'+datalist.entryReportStandards[0].solutionf" />
-                    <div class="imglist" v-if="selected==2" v-for="item in datalist.entryReportStandards[0].imgs" @click="clickImg($event)" :style="'background-image:url('+item+')'" :data-img='item'></div>
+                    <mt-cell :title="'检测说明：'+item.instructions" />
+                    <mt-cell :title="'施工隐患：'+item.hdanger" />
+                    <mt-cell :title="'解决方案：'+item.solution" />
+                    <mt-cell :title="'解决方法：'+item.solutionf" />
+                    <div class="imglist"  v-for="ite in item.imgs" @click="clickImg($event)" :style="'background-image:url('+ite+')'" :data-img='ite'></div>
                     <!-- <img v-if="selected==2" v-for="item in datalist.entryReportStandards[0].imgs" @click="clickImg($event)" :src="item"> -->
                 </mt-tab-container-item>
             </mt-tab-container>
-            
         </div>
+
         <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img>
         <div class="logo"></div>
     </div>  
@@ -67,33 +70,43 @@ export default {
     var that=this
     this.$root.$emit("header", this.$route.query.name);
     var data=sessionStorage.getItem("presentationInfo")
+    
     data=JSON.parse(data)
     data.workList.createTime=data.workList.createTime.split('.')
     data.workList.createTime=data.workList.createTime[0]
+    
     this.dataInfo=data
     let id=this.$route.query.id
+    console.log(that.$route.query.id)
     // console.log(data)
     this.$http({
             url: "/api/public/entryreport/queryByIds",
             method: "post",
             data:[id],
         }).then((res) => {
+          console.log(res.data.info)
             var data1=res.data.info.list[0]
-            // console.log(data1)
             if(res.data.status!=200){
               Toast(res.data.msg);
             }else{
-              data1.entryReportStandards[0].imgs=that.listSet(data1.entryReportStandards[0].imgs)
-              for(let i in data1.entryReportStandards[0]){
-                if(data1.entryReportStandards[0][i]==null){
-                  data1.entryReportStandards[0][i]='无'
+              for(let j in data1.entryReportStandards){
+                // console.log(data1.entryReportStandards[j].imgs)
+                if(data1.entryReportStandards[j].imgs!=null){
+                  data1.entryReportStandards[j].imgs=that.listSet(data1.entryReportStandards[j].imgs)
                 }
+                for(let i in data1.entryReportStandards[j]){
+                  if(data1.entryReportStandards[j][i]==null){
+                    data1.entryReportStandards[j][i]='无'
+                  }
+                }
+                if(data1.entryReportStandards[j].isService==0){
+                  data1.entryReportStandards[j].selected='2'
+                }else if(data1.entryReportStandards[j].isService==1 || data1.entryReportStandards[j].isService==2){
+                  data1.entryReportStandards[j].selected='1'
+                }
+                console.log(data1.entryReportStandards[j].selected)
               }
-              if(data1.entryReportStandards[0].isService==0){
-                that.selected='2'
-              }else if(data1.entryReportStandards[0].isService==1 || data1.entryReportStandards[0].isService==2){
-                that.selected='1'
-              }
+              console.log(data1)
               that.datalist=data1
             }    
         });
@@ -131,7 +144,7 @@ export default {
   overflow: hidden;
   background-color: #f5f5f5;
 }
-.box {
+.contain .box {
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 0.15rem;
@@ -139,46 +152,46 @@ export default {
   background: #ffffff;
   text-align: left;
 }
-.box .title {
+.contain .box .title {
   width: 100%;
   color: #333;
   border-bottom: 0.01rem solid #e6e6e6;
   padding: 0.23rem 0 0.23rem 0.33rem;
 }
-.box .title p {
+.contain .box .title p {
   border-left: 0.06rem solid #11b786;
   padding-left: 0.09rem;
   font-size: 0.28rem;
   text-align: left;
 }
-.box .text {
+.contain .box .text {
   line-height: 0.35rem;
   color: #666666;
   font-size: 0.26rem;
   padding: 0.1rem 0;
 }
-.box .text > span {
+.contain .box .text > span {
   margin-left: 0.45rem;
   padding: 0.1rem 0;
   display: block;
   width: 3.2rem;
   float: left;
 }
-.box .text div > span {
+.contain .box .text div > span {
   display: block;
   float: left;
 }
-.box .text div {
+.contain .box .text div {
   clear: both;
   margin-left: 0.45rem;
   padding: 0.1rem 0;
   overflow: hidden;
 }
-.box .text div p {
+.contain .box .text div p {
   width: 5.54rem;
   float: left;
 }
-.project {
+.contain .project {
   font-size: 0.26rem;
   padding: 0.2rem 0.45rem;
   box-sizing: border-box;
@@ -186,19 +199,19 @@ export default {
   border-bottom: 0.01rem solid #e6e6e6;
   overflow: hidden;
 }
-.project p {
+.contain .project p {
   margin-bottom: 0.26rem;
 }
-.project img {
+.contain .project img {
   width: 46%;
   float: left;
   margin: 0.1rem 1%;
 }
-.nevbar{
+.contain .nevbar{
     color: #11b786 !important;
     border-bottom: 0.02rem solid #eeeeee  !important;
 }
-.logo {
+.contain .logo {
   width: 100%;
   height: 1rem;
   background-image: url("../../../../static/images/logoB.png");
@@ -206,12 +219,12 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
 }
-.isimg{
+.contain .isimg{
   font-size: 0.26rem !important;
   width: 98% !important;
   margin: 0 auto;
 }
-.isimg .imglist{
+.contain .isimg .imglist{
   width: 48%;
   height: 3.5rem;
   margin: 0.1rem 1%;
@@ -219,7 +232,7 @@ export default {
   background-position:center;
   background-size:cover 
 }
-.isimg img{
+.contain .isimg img{
   width: 48%;
   margin: 0.1rem 1%;
 }
