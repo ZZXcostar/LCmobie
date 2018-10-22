@@ -30,8 +30,9 @@
             </mt-navbar>
             <mt-tab-container v-model="item.selected" class="isimg">
                 <mt-tab-container-item id="1">
-                    <mt-cell :title="'检测说明：'+item.instructions" />
-                    <div class="imglist" v-for="ite in item.imgs" @click="clickImg($event)" :style="'background-image:url('+ite+')'" :data-img='ite'></div>
+                    <mt-cell v-if="item.isService==1" :title="'检测说明：'+item.instructions" />
+                    <mt-cell v-if="item.isService==2" :title="'无需验收说明：'+item.instructions" />
+                    <div class="imglist" v-if="item.isService==1" v-for="ite in item.imgs" @click="clickImg($event)" :style="'background-image:url('+ite+')'" :data-img='ite'></div>
                     <!-- <img v-if="selected==1" v-for="item in datalist.entryReportStandards[0].imgs" @click="clickImg($event)" :src="item"> -->
                 </mt-tab-container-item>
                 <mt-tab-container-item id="2">
@@ -39,12 +40,11 @@
                     <mt-cell :title="'施工隐患：'+item.hdanger" />
                     <mt-cell :title="'解决方案：'+item.solution" />
                     <mt-cell :title="'解决方法：'+item.solutionf" />
-                    <div class="imglist"  v-for="ite in item.imgs" @click="clickImg($event)" :style="'background-image:url('+ite+')'" :data-img='ite'></div>
+                    <div class="imglist" v-for="ite in item.imgs" @click="clickImg($event)" :style="'background-image:url('+ite+')'" :data-img='ite'></div>
                     <!-- <img v-if="selected==2" v-for="item in datalist.entryReportStandards[0].imgs" @click="clickImg($event)" :src="item"> -->
                 </mt-tab-container-item>
             </mt-tab-container>
         </div>
-
         <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img>
         <div class="logo"></div>
     </div>  
@@ -104,7 +104,6 @@ export default {
                 }else if(data1.entryReportStandards[j].isService==1 || data1.entryReportStandards[j].isService==2){
                   data1.entryReportStandards[j].selected='1'
                 }
-                console.log(data1.entryReportStandards[j].selected)
               }
               console.log(data1)
               that.datalist=data1

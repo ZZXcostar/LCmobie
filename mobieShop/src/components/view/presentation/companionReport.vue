@@ -95,7 +95,7 @@
             </div>
             <div class="project" >
                 <span>2.工期约定</span>
-                <p><i class="icon iconfont icon-AppIcon"></i>{{datalist.contract.duration}}</p>
+                <p><i class="icon iconfont icon-AppIcon"></i>{{datalist.contract.duration}}工作日</p>
             </div>
             <div class="project">
                 <span>备注</span>
@@ -195,7 +195,7 @@ export default {
     overflow: hidden;
     background-color:#f5f5f5; 
 }
-.contain.box{
+.contain .box{
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 0.15rem;

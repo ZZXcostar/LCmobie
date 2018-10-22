@@ -46,9 +46,9 @@ export default {
         toSupInfo(id,name,index){
             console.log(id)
             var that=this
-            // if(that.datalist[index].okCount==that.datalist[index].reportCount){
-            //     that.$router.push('/supervisorInfo?company=92&id='+id+'&name='+name);
-            // }else if(that.datalist[index].reportCount==1){
+            if(that.datalist[index].okCount==that.datalist[index].reportCount){
+                that.$router.push('/supervisorInfo?company=92&id='+id+'&name='+name);
+            }else if(that.datalist[index].reportCount==1){
                 this.$http({
                 url: "/api/public/entryreport/queryByIds",
                 method: "post",
@@ -63,16 +63,14 @@ export default {
                         that.$router.push('/supervisorInfo?company=92&id='+id+'&name='+name);
                     }    
                 });
-            // }else{
-            //     Toast('此节点还未有完整报告上传');
-            // }
-            
+            }else{
+                Toast('此节点还未有完整报告上传');
+            }
         }
     }
 }
 </script>
 <style scoped>
-
 .contain{
     height:100vh;
     background-color:#fff; 
