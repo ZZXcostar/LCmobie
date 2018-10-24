@@ -435,7 +435,6 @@
                                     this.$router.push('/presentationIndex');
                                 }else{
                                     Toast('您还未在我们平台下过单！');
-                                    that.$router.go(-1);
                                 }
                             });
                             break;
