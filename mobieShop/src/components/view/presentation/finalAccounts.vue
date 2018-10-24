@@ -1,5 +1,5 @@
 <template>
-    <div class='contain' v-touch:left="onSwipeLeft">
+    <div class='contain' v-touch:right="onSwipeRight">
         <div class="box">
             <div class="title">
                 <p>业主信息</p>
@@ -59,7 +59,7 @@ export default {
         
     },
     methods:{
-        onSwipeLeft(){ //左滑上一页
+        onSwipeRight(){ //左滑上一页
             this.$router.go(-1)
         },
     }

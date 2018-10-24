@@ -1,5 +1,5 @@
 <template>
-    <div class='contain' v-touch:left="onSwipeLeft">
+    <div class='contain' v-touch:right="onSwipeRight">
         <div class="header"></div>
         <div class="content">
             <p @click="toSupInfo(item.id,item.reportname,index)" v-for="(item,index) in datalist"><span>{{item.reportname}}  ({{item.okCount==null? '0':item.okCount}}/{{item.reportCount}})</span><i class="icon iconfont icon-youjiantou1"></i></p>
@@ -39,7 +39,7 @@ export default {
         });
     },
     methods:{
-        onSwipeLeft(){ //左滑上一页
+        onSwipeRight(){ //左滑上一页
             // this.$router.go(-1)
             this.$router.back(-1)
         },

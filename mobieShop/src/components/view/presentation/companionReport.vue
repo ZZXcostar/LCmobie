@@ -1,5 +1,5 @@
 <template>
-    <div class='contain' v-touch:left="onSwipeLeft">
+    <div class='contain' v-touch:right="onSwipeRight">
         <div class="box">
             <div class="title">
                 <p>业主信息</p>
@@ -49,7 +49,7 @@
                 <p v-for="item in datalist.additmes.rest"><i class="icon iconfont icon-gou"></i>{{item}}</p>
             </div>
             <div class="project">
-                <span>备注</span>
+                <span>备注{{datalist.additmes.remark==''?'：无':''}}</span>
                 <p>{{datalist.additmes.remark}}</p>
             </div>
         </div>
@@ -58,11 +58,11 @@
                 <p>材料工艺项目</p>
             </div>
             <div class="project">
-                <p class="pr">1.存在铺贴方式的增项（拼花、斜铺、倒角等) <span class="istrue"><i class="icon iconfont icon-AppIcon"></i>{{datalist.materials.manual==true? '部分':'有'}}</span></p>
-                <p class="pr">2.存在原始地面找平费用——非实木地板基础找  <span class="istrue"><i class="icon iconfont icon-AppIcon"></i>{{datalist.materials.detailed==true? '部分':'有'}}</span></p>
+                <p class="pr">1.是否有主要的材料品牌详单（油漆、板材、水电、防水等材料） <span class="istrue"><i class="icon iconfont icon-AppIcon"></i>{{datalist.materials.manual==true? '部分':'有'}}</span></p>
+                <p class="pr">2.是否有齐全的施工备注或者施工手册  <span class="istrue"><i class="icon iconfont icon-AppIcon"></i>{{datalist.materials.detailed==true? '部分':'有'}}</span></p>
             </div>
             <div class="project">
-                <span>备注</span>
+                <span>备注{{datalist.materials.rest==''?'：无':''}}</span>
                 <p>{{datalist.materials.rest}}</p>
             </div>
         </div>
@@ -77,7 +77,7 @@
                 </div>
             </div>
             <div class="project">
-                <span>备注</span>
+                <span>备注{{datalist.suggest.rest==''?'：无':''}}</span>
                 <p>{{datalist.suggest.rest}}</p>
             </div>
         </div>
@@ -89,16 +89,16 @@
                 <span>1.合同是否为杭州推荐合同</span>
                 <p><i class="icon iconfont icon-AppIcon"></i>{{datalist.contract.payment==true?'自印版':'杭州市推荐版本'}}</p>
             </div>
-            <div class="project" >
+            <div class="project" v-if="datalist.contract.payment">
                 <span>2.合同付款方式</span>
                 <p><i class="icon iconfont icon-AppIcon"></i>{{datalist.contract.payment}}</p>
             </div>
-            <div class="project" >
+            <div class="project" v-if="datalist.contract.duration">
                 <span>2.工期约定</span>
                 <p><i class="icon iconfont icon-AppIcon"></i>{{datalist.contract.duration}}工作日</p>
             </div>
             <div class="project">
-                <span>备注</span>
+                <span>备注{{datalist.contract.rest==''?'：无':''}}</span>
                 <p>{{datalist.contract.rest}}</p>
             </div>
         </div>
@@ -179,7 +179,7 @@ export default {
         });
     },
     methods:{
-        onSwipeLeft(){ //左滑上一页
+        onSwipeRight(){ //左滑上一页
             this.$router.go(-1)
         },
         listSet(data){   //将字符串数据转换成数组

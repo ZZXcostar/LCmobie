@@ -1,10 +1,10 @@
 <template>
-    <div class='contain' v-touch:left="onSwipeLeft">
+    <div class='contain' v-touch:right="onSwipeRight">
         <div class="header">
             <div class="userInfo">
                 <img src="../../../../static/images/header.png" alt="">
                 <div class="text">
-                    <p><i class="icon iconfont icon-yonghu"></i>{{userInfo.nickname==null?datainfo[0].name:userInfo.nickname}}</p>
+                    <p><i class="icon iconfont icon-yonghu"></i>{{userInfo.nickname==null? name : userInfo.nickname}}</p>
                     <p><i class="icon iconfont icon-weibiaoti"></i>{{userInfo.mobile}}</p>
                 </div>
             </div>
@@ -29,7 +29,8 @@ export default {
         return {
            appid:'',
            datainfo:'',
-           userInfo:''
+           userInfo:'',
+           name:''
         }
     },
     created(){
@@ -47,16 +48,17 @@ export default {
             data:{},
         }).then((res) => {
             // console.log(res.data.info)
-            console.log(res.data)
+            console.log(res.data.info)
             if(res.data.status==200){
                 that.datainfo=res.data.info
+                that.name=res.data.info[0].name
             }else{
                 Toast(res.data.msg);
             }   
         });
     },
     methods:{
-        onSwipeLeft(){ //左滑上一页
+        onSwipeRight(){ //左滑上一页
             this.$router.go(-1)
         },
         supervisor(index){  //跳转到监理报告列表
