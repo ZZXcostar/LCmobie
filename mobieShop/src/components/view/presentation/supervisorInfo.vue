@@ -17,17 +17,23 @@
             <div class="text">
                 <span>管家姓名：{{dataInfo.workList.name}}</span>
                 <span>管家电话：{{dataInfo.workList.phone}}</span>
-                <div><span>验收时间：</span><p>{{dataInfo.workList.createTime}}</p></div>
+                <div><span>验收时间：</span><p>{{datalist.receptionTime}}</p></div>
             </div>
         </div>
         <div class="box" v-for="item in datalist.entryReportStandards">
             <div class="title">
                 <p>{{"【"+item.items+"】"+item.point}}</p>
+                <span v-if="item.selected==1" class="green">合格</span>
+                <span v-if="item.selected==2" class="red">不合格</span>
             </div>
-            <mt-navbar class="nevbar" v-model="item.selected">
-                <mt-tab-item id="1">合格</mt-tab-item>
-                <mt-tab-item id="2">不合格</mt-tab-item>
-            </mt-navbar>
+            <!-- <div class="title">
+                <span v-if="item.selected==1">合格</span>
+                <span v-if="item.selected==2">不合格</span>
+            </div> -->
+            <!-- <mt-navbar class="nevbar" v-model="item.selected">
+                <mt-tab-item id="1" v-if="item.selected==1">合格</mt-tab-item>
+                <mt-tab-item id="2" v-if="item.selected==2">不合格</mt-tab-item>
+            </mt-navbar> -->
             <mt-tab-container v-model="item.selected" class="isimg">
                 <mt-tab-container-item id="1">
                     <mt-cell v-if="item.isService==1" :title="'检测说明：'+item.instructions" />
@@ -156,12 +162,28 @@ export default {
   color: #333;
   border-bottom: 0.01rem solid #e6e6e6;
   padding: 0.23rem 0 0.23rem 0.33rem;
+  position: relative;
+}
+.contain .box .title span{
+  position: absolute;
+  right: 0.7rem;
+  font-size: 0.28rem;
+  top: 0;
+  padding: 0.23rem 0rem;
+}
+.contain .box .title .red{
+  color: #d7434d
+}
+.contain .box .title .green{
+  color: #11b786
 }
 .contain .box .title p {
   border-left: 0.06rem solid #11b786;
   padding-left: 0.09rem;
   font-size: 0.28rem;
   text-align: left;
+  padding-right: 2rem;
+  box-sizing: border-box;
 }
 .contain .box .text {
   line-height: 0.35rem;
@@ -208,6 +230,7 @@ export default {
 }
 .contain .nevbar{
     color: #11b786 !important;
+    text-align: left;
     border-bottom: 0.02rem solid #eeeeee  !important;
 }
 .contain .logo {
