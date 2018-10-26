@@ -1,5 +1,5 @@
 <template>
-    <div class='contain' v-touch:right="onSwipeRight">
+    <div class='contain'>
         <div class="box">
             <div class="title">
                 <p>业主信息</p>
@@ -17,7 +17,7 @@
             <div class="text">
                 <span>管家姓名：{{dataInfo.workList.name}}</span>
                 <span>管家电话：{{dataInfo.workList.phone}}</span>
-                <div><span>验收时间：</span><p>{{datalist.receptionTime}}</p></div>
+                <div v-if="datalist.receptionTime!=null"><span>验收时间：</span><p>{{datalist.receptionTime}}</p></div>
             </div>
         </div>
         <div class="box" v-for="item in datalist.entryReportStandards">
@@ -78,9 +78,11 @@ export default {
     var data=sessionStorage.getItem("presentationInfo")
     
     data=JSON.parse(data)
-    data.workList.createTime=data.workList.createTime.split('.')
-    data.workList.createTime=data.workList.createTime[0]
-    
+    console.log(data)
+    if(data.workList!=null){
+      data.workList.createTime=data.workList.createTime.split('.')
+      data.workList.createTime=data.workList.createTime[0]
+    }
     this.dataInfo=data
     let id=this.$route.query.id
     console.log(that.$route.query.id)
@@ -120,10 +122,10 @@ export default {
     'big-img':BigImg
   },
   methods: {
-    onSwipeRight() {
-      //左滑上一页
-      this.$router.go(-1);
-    },
+    // onSwipeRight() {
+    //   //左滑上一页
+    //   this.$router.go(-1);
+    // },
     listSet(data){   //将字符串数据转换成数组
         var arr=data.split(',')
         arr.pop()
@@ -184,6 +186,9 @@ export default {
   text-align: left;
   padding-right: 2rem;
   box-sizing: border-box;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 .contain .box .text {
   line-height: 0.35rem;

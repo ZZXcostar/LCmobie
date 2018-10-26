@@ -10,8 +10,8 @@ import store from './store'
 import BaiduMap from 'vue-baidu-map'
 import {operatelocalstorage} from './assets/javascript/localstorage_hasdata.js'
 import { Toast } from 'mint-ui';
-import touch from 'vue-directive-touch';
-Vue.use(touch);
+// import touch from 'vue-directive-touch';    //左右滑动的包
+// Vue.use(touch);
 Vue.use(BaiduMap, {
     // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
     ak: 'eBFK8PeaclOw8XQBiOEatBPrazdK0qDg'

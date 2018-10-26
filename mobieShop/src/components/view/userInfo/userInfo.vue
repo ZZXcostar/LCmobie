@@ -424,13 +424,11 @@
                             //请求报告数据
                             let userInfo=JSON.parse(operatelocalstorage('userinfo',null,'get',null))
                             var phone=userInfo.mobile
-                            // console.log(phone)
                             this.$http({
                                 url: "/api/product/ProjectEstablish/queryListByOrderInfoPhone?phone="+phone,
                                 method: "post",
                                 data:{},
                             }).then((res) => {
-                                // console.log(res.data.info)
                                 if(res.data.info!=0){
                                     this.$router.push('/presentationIndex');
                                 }else{

@@ -1,5 +1,5 @@
 <template>
-    <div class='contain' v-touch:right="onSwipeRight">
+    <div class='contain' >
         <div class="header"></div>
         <div class="content">
             <p @click="toSupInfo(item.id,item.reportname,index)" v-for="(item,index) in datalist"><span>{{item.reportname}}  ({{item.okCount==null? '0':item.okCount}}/{{item.reportCount}})</span><i class="icon iconfont icon-youjiantou1"></i></p>
@@ -39,10 +39,10 @@ export default {
         });
     },
     methods:{
-        onSwipeRight(){ //左滑上一页
-            // this.$router.go(-1)
-            this.$router.back(-1)
-        },
+        // onSwipeRight(){ //左滑上一页
+        //     // this.$router.go(-1)
+        //     this.$router.back(-1)
+        // },
         toSupInfo(id,name,index){
             console.log(id)
             var that=this

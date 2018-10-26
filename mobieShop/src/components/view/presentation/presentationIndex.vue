@@ -1,5 +1,5 @@
 <template>
-    <div class='contain' v-touch:right="onSwipeRight">
+    <div class='contain' >
         <div class="header">
             <div class="userInfo">
                 <img src="../../../../static/images/header.png" alt="">
@@ -48,7 +48,7 @@ export default {
             data:{},
         }).then((res) => {
             // console.log(res.data.info)
-            console.log(res.data.info)
+            console.log(res)
             if(res.data.status==200){
                 that.datainfo=res.data.info
                 that.name=res.data.info[0].name
@@ -58,9 +58,9 @@ export default {
         });
     },
     methods:{
-        onSwipeRight(){ //左滑上一页
-            this.$router.go(-1)
-        },
+        // onSwipeRight(){ //左滑上一页
+        //     this.$router.go(-1)
+        // },
         supervisor(index){  //跳转到监理报告列表
             let id=this.datainfo[index].id
             var that=this
@@ -70,11 +70,12 @@ export default {
                 data:[id],
             }).then((res) => {
                 var data=res.data.info
-                // console.log(data)
+                console.log(res)
                 if(data.length==0){
                     Toast('此项目未生成节点');
                     that.$router.go(-1);
                 }else{
+                    console.log(that.datainfo[index])
                     sessionStorage.setItem('presentationInfo',JSON.stringify(that.datainfo[index]))  
                     that.$router.push('/supervisorList?company=92&id='+id);
                 }

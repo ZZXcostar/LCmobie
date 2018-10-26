@@ -1,5 +1,5 @@
 <template>
-    <div class='contain' v-touch:right="onSwipeRight">
+    <div class='contain' >
         <div class="box">
             <div class="title">
                 <p>业主信息</p>
@@ -179,9 +179,9 @@ export default {
         });
     },
     methods:{
-        onSwipeRight(){ //左滑上一页
-            this.$router.go(-1)
-        },
+        // onSwipeRight(){ //左滑上一页
+        //     this.$router.go(-1)
+        // },
         listSet(data){   //将字符串数据转换成数组
             var arr=data.split('+')
             arr.pop()
