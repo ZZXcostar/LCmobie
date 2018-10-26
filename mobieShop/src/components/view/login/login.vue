@@ -59,6 +59,9 @@
                 <mt-button type="default" class='btn-login button' @click="loginquick">快速登录</mt-button>
                 <!-- <router-link to='' class='pswlogin' @click.native='switch_login'>密码登录</router-link> -->
             </p>
+            <p class='opera_quicks'>
+                <mt-button type="default" class='btn-logins button' @click="wechatlogin">微信登录</mt-button>
+            </p>
             <mt-button type="default" class='btn-resign'  @click.native='switch_resign'>没有账号，立即注册</mt-button>
         </div>
         <!-- 注册 -->
@@ -95,6 +98,28 @@
             </div>
             <mt-button type="default" class='btn-resign' @click='switch_login'>已有账号，立即登录</mt-button>
         </div>
+        
+        <!-- 微信登录绑定手机 -->
+         <mt-popup v-model="bindingPhone" popup-transition="popup-fade" class="bindingPhone">
+             <div class="bindingPhoneContent">
+                 <p class="bindingPhoneTitle">请绑定手机号！</p>
+                 <div class="phone">
+                    <i class='icon iconfont icon-shouji font'></i>
+                    <input type="tel" placeholder="手机号码" v-model="phones" @change='checkphones()' @focus="focus_input" @blur="blur_input" >
+                    <p class='error'>{{phonejson.msgs}}</p>
+                </div>
+                <div class="verificationcode">
+                    <i class='icon iconfont icon-key font'></i>
+                    <input type="number" class='codeinput' placeholder="验证码" v-model="codes" @focus="focus_input" @blur="blur_input">
+                    <p class='error' v-show="bindingPhoneError" style="    position: absolute;">请输入正确的验证码</p>
+                    <router-link :to="linkURL" style='position:absolute;font-size:.3rem;top:.6rem;right:.2rem;'  @click.native='getcodes(2)'>{{second}}</router-link>
+                </div>
+                <p class='opera_quicks'>
+                    <mt-button type="default" class='btn-logins button' @click="bindingPhonelogin" style=" margin-top: .8rem;">完成并登录</mt-button>
+                </p>
+             </div>
+            
+        </mt-popup>
     </div>
 </template>
 <script>
@@ -106,14 +131,17 @@ export default {
     data(){
         return {
             phone:'',
+            phones:'',
             psw:'',
             pswtwice:'',
             code:'',
+            codes:'',
             codehas:'',
             agreement:['用户协议书'],
             phonejson:{
                 status:false,
-                msg:''
+                msg:'',
+                msgs:''
             },
             pswjson:{
                 status:false,
@@ -134,6 +162,8 @@ export default {
             to:'',
             clientHeight:0,
             in_resolve:false,
+            bindingPhone:false,
+            bindingPhoneError:false,
             openId:'',
             companyid:null,
             style2Login2:{
@@ -454,6 +484,169 @@ export default {
                 this.checkphone();
             }
         },
+        //微信登录
+        wechatlogin(){
+            if(this.in_resolve){
+                return;
+            }
+            let that=this;
+            let data='';
+            if(this.openId==''){
+               Toast('请在微信打开此页面');
+            }
+            else{
+                data= this.openId;
+                this.in_resolve=true;
+                Indicator.open('Loading...');
+                this.$http.post('/api/customer/account/loginByOpenId?openId='+data)
+                .then(function(response){
+                    
+                    if(response.data.status == 200){
+                        let data=response.data.info;
+
+                        let isActivity = that.$route.query.isActivity;
+                        let openId = sessionStorage.getItem('openId')
+                            if(isActivity != undefined && openId ==null|| openId == undefined){
+                                    if(isActivity == 114){
+                                        Toast({
+                                            message: '正在为你跳转请稍后...',
+                                            iconClass: 'icon icon-success',
+                                            duration: 500
+                                        });
+                                        let memberId = data.id;
+                                        let phone = that.phone;
+                                        let openIds = that.openId
+                                        window.location.href = "http://www.house178.com/qbfc/coupon/service/index?memberId="+memberId+"&phone="+phone+"&openId="+openIds
+                                }
+                            }
+
+                        operatelocalstorage('userinfo',JSON.stringify(data),'set',300);
+                        setTimeout(() => {
+                            Toast({
+                                message: '登录成功正在为你跳转请稍后...',
+                                iconClass: 'icon icon-success',
+                                duration: 500
+                            });
+                            let fromgo=sessionStorage.getItem('fromgo');
+
+                            if(fromgo==null){
+                                if(that.companyid!=null){
+                                    that.$router.push('/index?company='+that.companyid);
+                                }
+                                else{
+                                    that.$router.push('/index');
+                                }
+                            }else{
+                                that.$router.push(fromgo);
+                                sessionStorage.removeItem('fromgo');
+                            }
+                            that.in_resolve=false;
+                        }, 1000);
+                    }else if(response.data.status == 300){
+                        that.bindingPhone = true;
+                        that.in_resolve=false;
+                        that.phones = '';
+                        that.codes = '';
+                    }else{
+                        Toast(response.data.msg);
+                        that.in_resolve=false;
+                    }
+                    Indicator.close();
+                })
+                .catch(function(response){
+                    Indicator.close();
+                        Toast('登录失败');
+                        that.in_resolve=false;
+                });
+            }
+        },
+        //微信绑定手机并登录
+        bindingPhonelogin(){
+            if(this.in_resolve){
+                return;
+            }
+            let that = this
+            if(this.phonejson.status){
+                if(this.codes==''){
+                    alert('请输入验证码');
+                }
+                else{
+                    let that=this;
+                    let data='';
+                    if(this.openId==''){
+                        data='mobile='+this.phones+'&code='+this.codes;
+                    }
+                    else{
+                        data='mobile='+this.phones+'&code='+this.codes+'&openId='+this.openId;
+                    }
+                    this.in_resolve=true;
+                    Indicator.open('Loading...');
+                    this.$http.post('/api/customer/account/loginByOpenId?'+data)
+                    .then(function(response){
+                        
+                        if(response.data.status == 200){
+                            let data=response.data.info;
+
+                           let isActivity = that.$route.query.isActivity;
+                         let openId = sessionStorage.getItem('openId')
+                        // alert(isActivity)
+                                if(isActivity != undefined && openId ==null|| openId == undefined){
+                                 //   alert(isActivity)
+                                        if(isActivity == 114){
+                                            Toast({
+                                                message: '正在为你跳转请稍后...',
+                                                iconClass: 'icon icon-success',
+                                                duration: 500
+                                            });
+                                            let memberId = data.id;
+                                            let phone = that.phones;
+                                            let openIds = that.openId
+                                            window.location.href = "http://www.house178.com/qbfc/coupon/service/index?memberId="+memberId+"&phone="+phone+"&openId="+openIds
+                                    }
+                                }
+
+                            operatelocalstorage('userinfo',JSON.stringify(data),'set',300);
+                            setTimeout(() => {
+                                Toast({
+                                    message: '登录成功正在为你跳转请稍后...',
+                                    iconClass: 'icon icon-success',
+                                    duration: 500
+                                });
+                                let fromgo=sessionStorage.getItem('fromgo');
+                              //  console.log(fromgo)
+                                if(fromgo==null){
+                                    if(that.companyid!=null){
+                                        that.$router.push('/index?company='+that.companyid);
+                                    }
+                                    else{
+                                        that.$router.push('/index');
+                                    }
+                                }
+                                else{
+                                    that.$router.push(fromgo);
+                                    sessionStorage.removeItem('fromgo');
+                                }
+                                // that.$router.push('/index');
+                                that.in_resolve=false;
+                            }, 1000);
+                        }
+                        else{
+                            alert(response.data.msg);
+                            that.in_resolve=false;
+                        }
+                        Indicator.close();
+                    })
+                    .catch(function(response){
+                        Indicator.close();
+                         alert('登录失败');
+                         that.in_resolve=false;
+                    });
+                }
+            }
+            else{
+                this.checkphone();
+            }
+        },
         // 注册
         resign(){
             if(this.phonejson.status){
@@ -571,6 +764,28 @@ export default {
             }
             
         },
+        //微信绑定手机验证码
+        getcodes(type){
+            var that=this
+            if(this.second=='获取验证码'){
+                if(this.phonejson.status){
+                    let that=this;
+                    this.$http.post('/api/customer/resource/sendSmsCode?mobile='+that.phones+'&type='+type)
+                    .then(function(response){
+                       // Toast(response.data.msg);
+                        that.second=60;
+                        that.countDown();
+                    })
+                    .catch(function(response){
+                        alert('验证码获取失败');
+                    });
+                }
+                else{
+                    this.bindingPhoneError = true
+                    this.checkphone();
+                }
+            }
+        },
         // 倒计时
         countDown(){
             let time=setInterval(()=>{
@@ -604,11 +819,14 @@ export default {
         // 清空数据
         cleardata(){
             this.phone='';
+            this.phones='';
             this.psw='';
             this.pswtwice='';
             this.code='';
+            this.codes='';
             this.phonejson.status=false;
             this.phonejson.msg='';
+            this.phonejson.msgs='';
             this.pswjson.status=false;
             this.pswjson.msg='';
             this.codejson.status=false;
@@ -619,6 +837,11 @@ export default {
             let result=checkClass.checkTel(this.phone);
             this.phonejson.status=result.flag;
             this.phonejson.msg=result.flag?'':result.error;
+        },
+        checkphones(){
+            let result=checkClass.checkTel(this.phones);
+            this.phonejson.status=result.flag;
+            this.phonejson.msgs=result.flag?'':result.error;
         },
         // 密码验证
         checkpsw(){
@@ -736,6 +959,36 @@ export default {
     margin-top: .2rem;
     height:.8rem;
 }
+.opera_quicks{
+    font-size: 0.3rem;
+    margin-top: .4rem;
+    height:.8rem;
+}
+.bindingPhone{width: 85%;height: 48%;}
+.bindingPhoneContent{padding: 0.8rem 0.8rem;}
+.bindingPhoneTitle{
+        font-size: 0.34rem;
+    text-align: left;
+    margin-bottom: 0.5rem;
+}
+.bindingPhoneContent .phone i {
+    color: #44b549;
+    font-size: .45rem;
+    position: absolute;
+    top: .53rem;
+}
+.bindingPhoneContent .phone input {
+    text-indent: .7rem;
+}
+.bindingPhoneContent .verificationcode i {
+    color: #44b549;
+    font-size: .45rem;
+    position: absolute;
+    top: .53rem;
+}
+.bindingPhoneContent .verificationcode input {
+    text-indent: .7rem;
+}
 .forgetpsw{
     font-size: .3rem;
     line-height: .8rem;
@@ -768,6 +1021,19 @@ export default {
     color:#fff;
     position: absolute;
     top:0;
+}
+.btn-logins{
+    width: 60%;
+    border-radius: 1rem !important;
+    margin: 0rem  auto;
+    height: .9rem;
+    line-height: .8rem;
+    text-align: center;
+    font-size: .35rem;
+    color: #fff;
+    border-radius: 5px;
+    background:#44b549;
+    /* float: right; */
 }
 .btn-resign{
     width:100%;
