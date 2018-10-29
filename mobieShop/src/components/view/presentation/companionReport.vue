@@ -227,6 +227,9 @@ export default {
     display: block;
     width: 3.2rem;
     float: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .contain .box .text div>span{
     display: block;

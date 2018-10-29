@@ -48,7 +48,17 @@ export default {
             data:{},
         }).then((res) => {
             // console.log(res.data.info)
-            console.log(res)
+            console.log(res.data.info)
+            let data=res.data.info
+            for(let i in data){
+                if(data[i].orderDetail.categoryName==null){
+                    if(data[i].orderDetail.serviceType.serName=='陪签服务'){
+                        data[i].orderDetail.categoryName='陪签'
+                    }else if(data[i].orderDetail.serviceType.serName=='全程监理'){
+                        data[i].orderDetail.categoryName='监理'
+                    }
+                }
+            }
             if(res.data.status==200){
                 that.datainfo=res.data.info
                 that.name=res.data.info[0].name
