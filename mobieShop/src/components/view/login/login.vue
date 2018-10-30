@@ -64,9 +64,10 @@
                     <img src="./../../../../static/images/weixin.png" style="    width: 0.34rem;">
                     微信登录
                 </p>
+                <mt-button type="default" class='btn-resign'  @click.native='switch_resign'>没有账号，立即注册</mt-button>
             </div>
             
-            <mt-button type="default" class='btn-resign'  @click.native='switch_resign'>没有账号，立即注册</mt-button>
+            
         </div>
         <!-- 注册 -->
         <div class='form login' v-show='resignflag'>
@@ -103,7 +104,7 @@
                 <p class="tit92" v-show="titShow">新用户注册即送100元优惠券</p>
             </div>
             <div class='opera_quicka'>
-                <p @click="wechatlogin" class="wechatloginP" style="    top: 2.9rem;">
+                <p @click="wechatlogin" class="wechatloginP" >
                     <img src="./../../../../static/images/weixin.png" style="    width: 0.34rem;">
                     微信登录
                 </p>
@@ -1009,18 +1010,20 @@ export default {
     margin-top: .2rem;
     height:.8rem;
 }
-.opera_quicka{
-    position: relative;
-}
+
 .wechatloginP{
     font-size: 0.32rem;
-    position: absolute;
-    top: 3rem;
-    left: 1.8rem;
+    width: 100%;
+    height: 1.5rem;
+    left: 0;
+    right: 0;
+        position: fixed;
+    bottom: 0.5rem;
+        display: block;
 }
 .tit92{font-size: 0.24rem;
-    margin-top: 0.5rem;
-    left: 1.95rem;
+    margin-top: 0.35rem;
+    left: 2.2rem;
     position: absolute;
     color: #edc581;}
 .opera_quicks{
@@ -1028,7 +1031,7 @@ export default {
     margin-top: .4rem;
     height:.8rem;
 }
-.bindingPhone{width: 85%;height: 48%;}
+.bindingPhone{width: 85%;}
 .bindingPhoneContent{padding: 0.8rem 0.8rem;}
 .bindingPhoneTitle{
         font-size: 0.34rem;
@@ -1036,7 +1039,7 @@ export default {
     margin-bottom: 0.5rem;
 }
 .bindingPhoneContent .phone i {
-    color: #44b549;
+    color: rgb(39, 162, 242);
     font-size: .45rem;
     position: absolute;
     top: .53rem;
@@ -1045,7 +1048,7 @@ export default {
     text-indent: .7rem;
 }
 .bindingPhoneContent .verificationcode i {
-    color: #44b549;
+    color: rgb(39, 162, 242);
     font-size: .45rem;
     position: absolute;
     top: .53rem;
@@ -1096,7 +1099,7 @@ export default {
     font-size: .35rem;
     color: #fff;
     border-radius: 5px;
-    background:#44b549;
+    background:rgb(39, 162, 242);
     /* float: right; */
 }
 .btn-resign{
