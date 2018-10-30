@@ -47,19 +47,22 @@ export default {
             method: "post",
             data:{},
         }).then((res) => {
-            // console.log(res.data.info)
-            console.log(res.data.info)
-            let data=res.data.info
-            for(let i in data){
-                if(data[i].orderDetail.categoryName==null){
-                    if(data[i].orderDetail.serviceType.serName=='陪签服务'){
-                        data[i].orderDetail.categoryName='陪签'
-                    }else if(data[i].orderDetail.serviceType.serName=='全程监理'){
-                        data[i].orderDetail.categoryName='监理'
+            if(res.data.status==200){
+                var data=res.data.info
+                for(let i=0;i<data.length;i++){
+                    console.log(data[i])
+                    let type1=data[i].orderDetail.categoryName
+                    let type2=data[i].orderDetail.serviceType.serName
+                    if(type1=='null'){
+                        if(type2=='陪签服务'){
+                            data[i].orderDetail.categoryName='陪签'
+                        }else if(type2=='全程监理'){
+                            data[i].orderDetail.categoryName='监理'
+                        }
+                    }else{
+                        data[i].orderDetail.categoryName=type1
                     }
                 }
-            }
-            if(res.data.status==200){
                 that.datainfo=res.data.info
                 that.name=res.data.info[0].name
             }else{
