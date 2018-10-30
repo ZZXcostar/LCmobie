@@ -1,5 +1,5 @@
 <template>
-    <div class='presentation' v-touch:right="onSwipeRight">
+    <div class='presentation' >
          <div class='imgs'>
             <div class='style2Login1'></div>              
         </div>
@@ -66,9 +66,9 @@ export default {
         }
     },
     methods:{
-        onSwipeRight(){ //左滑上一页
-            this.$router.go(-1)
-        },
+        // onSwipeRight(){ //左滑上一页
+        //     this.$router.go(-1)
+        // },
         loginquick(){ //点击登录跳转页面
             var reg = /^1(3|4|5|7|8)\d{9}$/;
             var that=this

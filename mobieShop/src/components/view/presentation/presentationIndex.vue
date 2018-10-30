@@ -1,5 +1,5 @@
 <template>
-    <div class='contain' v-touch:right="onSwipeRight">
+    <div class='contain' >
         <div class="header">
             <div class="userInfo">
                 <img src="../../../../static/images/header.png" alt="">
@@ -47,9 +47,22 @@ export default {
             method: "post",
             data:{},
         }).then((res) => {
-            // console.log(res.data.info)
-            console.log(res.data.info)
             if(res.data.status==200){
+                var data=res.data.info
+                for(let i=0;i<data.length;i++){
+                    console.log(data[i])
+                    let type1=data[i].orderDetail.categoryName
+                    let type2=data[i].orderDetail.serviceType.serName
+                    if(type1=='null'){
+                        if(type2=='陪签服务'){
+                            data[i].orderDetail.categoryName='陪签'
+                        }else if(type2=='全程监理'){
+                            data[i].orderDetail.categoryName='监理'
+                        }
+                    }else{
+                        data[i].orderDetail.categoryName=type1
+                    }
+                }
                 that.datainfo=res.data.info
                 that.name=res.data.info[0].name
             }else{
@@ -58,9 +71,9 @@ export default {
         });
     },
     methods:{
-        onSwipeRight(){ //左滑上一页
-            this.$router.go(-1)
-        },
+        // onSwipeRight(){ //左滑上一页
+        //     this.$router.go(-1)
+        // },
         supervisor(index){  //跳转到监理报告列表
             let id=this.datainfo[index].id
             var that=this
@@ -70,11 +83,12 @@ export default {
                 data:[id],
             }).then((res) => {
                 var data=res.data.info
-                // console.log(data)
+                console.log(res)
                 if(data.length==0){
                     Toast('此项目未生成节点');
                     that.$router.go(-1);
                 }else{
+                    console.log(that.datainfo[index])
                     sessionStorage.setItem('presentationInfo',JSON.stringify(that.datainfo[index]))  
                     that.$router.push('/supervisorList?company=92&id='+id);
                 }
