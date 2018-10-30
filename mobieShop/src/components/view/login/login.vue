@@ -59,9 +59,13 @@
                 <mt-button type="default" class='btn-login button' @click="loginquick">快速登录</mt-button>
                 <!-- <router-link to='' class='pswlogin' @click.native='switch_login'>密码登录</router-link> -->
             </p>
-            <p class='opera_quicks'>
-                <mt-button type="default" class='btn-logins button' @click="wechatlogin">微信登录</mt-button>
-            </p>
+            <div class='opera_quicka'>
+                <p @click="wechatlogin" class="wechatloginP">
+                    <img src="./../../../../static/images/weixin.png" style="    width: 0.34rem;">
+                    微信登录
+                </p>
+            </div>
+            
             <mt-button type="default" class='btn-resign'  @click.native='switch_resign'>没有账号，立即注册</mt-button>
         </div>
         <!-- 注册 -->
@@ -95,6 +99,14 @@
                     v-model="agreement"
                     :options="['用户协议书']">
                 </mt-checklist>
+                
+                <p class="tit92" v-show="titShow">新用户注册即送100元优惠券</p>
+            </div>
+            <div class='opera_quicka'>
+                <p @click="wechatlogin" class="wechatloginP" style="    top: 2.9rem;">
+                    <img src="./../../../../static/images/weixin.png" style="    width: 0.34rem;">
+                    微信登录
+                </p>
             </div>
             <mt-button type="default" class='btn-resign' @click='switch_login'>已有账号，立即登录</mt-button>
         </div>
@@ -114,8 +126,8 @@
                     <p class='error' v-show="bindingPhoneError" style="    position: absolute;">请输入正确的验证码</p>
                     <router-link :to="linkURL" style='position:absolute;font-size:.3rem;top:.6rem;right:.2rem;'  @click.native='getcodes(2)'>{{second}}</router-link>
                 </div>
-                <p class='opera_quicks'>
-                    <mt-button type="default" class='btn-logins button' @click="bindingPhonelogin" style=" margin-top: .8rem;">完成并登录</mt-button>
+                <p class='opera_quicks' style=" margin-top: .8rem;">
+                    <mt-button type="default" class='btn-logins button' @click="bindingPhonelogin" >完成并登录</mt-button>
                 </p>
              </div>
             
@@ -158,6 +170,7 @@ export default {
             loginflag:false,
             loginquickflag:true,
             resignflag:false,
+            titShow:false,
             second:'获取验证码',
             to:'',
             clientHeight:0,
@@ -235,6 +248,7 @@ export default {
             this.styletwo=true;
             this.styleone=false;
             this.stylethree=false;
+            this.titShow =true;
         }else if(sessionStorage.getItem('companyId')==114){
            // alert(114)
             this.styletwo=false;
@@ -560,6 +574,13 @@ export default {
                 });
             }
         },
+        //微信注册
+        wechatResign(){
+            this.bindingPhone = true;
+            this.in_resolve=false;
+            this.phones = '';
+            this.codes = '';
+        },
         //微信绑定手机并登录
         bindingPhonelogin(){
             if(this.in_resolve){
@@ -606,6 +627,20 @@ export default {
                                 }
 
                             operatelocalstorage('userinfo',JSON.stringify(data),'set',300);
+                            //家博注册领取优惠券
+                            if(that.companyid == 92){
+                                that.$http.post('/api/product/coupon/customer/mall/insert?number=1&mobile='+that.phones,["b6b60f8c-dc17-11e8-a50c-fa163edc8ab6"]).
+                                then(function(res){
+                                    if(res.data.status==200){
+                                         Toast('领取成功');
+                                    }else if(res.data.status==300){
+                                        Toast('领取失败');
+                                    }
+                                })
+                                .catch(function(response){
+                                    console.log(response);
+                                })
+                            }
                             setTimeout(() => {
                                 Toast({
                                     message: '登录成功正在为你跳转请稍后...',
@@ -647,6 +682,7 @@ export default {
                 this.checkphone();
             }
         },
+        
         // 注册
         resign(){
             if(this.phonejson.status){
@@ -685,24 +721,38 @@ export default {
 
                          let isActivity = that.$route.query.isActivity;
                          let openId = sessionStorage.getItem('openId')
-                        // alert(isActivity)
-                                if(isActivity != undefined && openId ==null|| openId == undefined){
-                                 //   alert(isActivity)
-                                        if(isActivity == 114){
-                                            Toast({
-                                                message: '正在为你跳转请稍后...',
-                                                iconClass: 'icon icon-success',
-                                                duration: 500
-                                            });
-                                            let memberId = data.id;
-                                            let phone = that.phone;
-                                            let openIds = that.openId
-                                            window.location.href = "http://www.house178.com/qbfc/coupon/service/index?memberId="+memberId+"&phone="+phone+"&openId="+openIds
-                                    }
+                            //钱报活动跳转判断
+                            if(isActivity != undefined && openId ==null|| openId == undefined){
+                                //   alert(isActivity)
+                                    if(isActivity == 114){
+                                        Toast({
+                                            message: '正在为你跳转请稍后...',
+                                            iconClass: 'icon icon-success',
+                                            duration: 500
+                                        });
+                                        let memberId = data.id;
+                                        let phone = that.phone;
+                                        let openIds = that.openId
+                                        window.location.href = "http://www.house178.com/qbfc/coupon/service/index?memberId="+memberId+"&phone="+phone+"&openId="+openIds
                                 }
-
+                            }
+                           //保存用户信息
                             operatelocalstorage('userinfo',JSON.stringify(data),'set',300);
-
+                            //家博注册领取优惠券
+                            if(that.companyid == 92){
+                                that.$http.post('/api/product/coupon/customer/mall/insert?number=1&mobile='+that.phones,["b6b60f8c-dc17-11e8-a50c-fa163edc8ab6"]).
+                                then(function(res){
+                                    if(res.data.status==200){
+                                         Toast('领取成功');
+                                    }else if(res.data.status==300){
+                                        Toast('领取失败');
+                                    }
+                                })
+                                .catch(function(response){
+                                    console.log(response);
+                                })
+                            }
+                            //登录注册后跳转
                             setTimeout(() => {
                                 Toast({
                                     message: '登录成功正在为你跳转请稍后...',
@@ -959,6 +1009,20 @@ export default {
     margin-top: .2rem;
     height:.8rem;
 }
+.opera_quicka{
+    position: relative;
+}
+.wechatloginP{
+    font-size: 0.32rem;
+    position: absolute;
+    top: 3rem;
+    left: 1.8rem;
+}
+.tit92{font-size: 0.24rem;
+    margin-top: 0.5rem;
+    left: 1.95rem;
+    position: absolute;
+    color: #edc581;}
 .opera_quicks{
     font-size: 0.3rem;
     margin-top: .4rem;
