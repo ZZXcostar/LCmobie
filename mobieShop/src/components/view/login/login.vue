@@ -59,7 +59,7 @@
                 <mt-button type="default" class='btn-login button' @click="loginquick">快速登录</mt-button>
                 <!-- <router-link to='' class='pswlogin' @click.native='switch_login'>密码登录</router-link> -->
             </p>
-            <div class='opera_quicka'>
+            <div class='opera_quicka'  v-show="iswxLogin">
                 <p @click="wechatlogin" class="wechatloginP">
                     <img src="./../../../../static/images/weixin.png" style="    width: 0.34rem;">
                     微信登录
@@ -103,13 +103,13 @@
                 
                 <p class="tit92" v-show="titShow">新用户注册即送100元优惠券</p>
             </div>
-            <div class='opera_quicka'>
+            <div class='opera_quicka'  v-show="iswxLogin">
                 <p @click="wechatlogin" class="wechatloginP" >
                     <img src="./../../../../static/images/weixin.png" style="    width: 0.34rem;">
                     微信登录
                 </p>
-            </div>
-            <mt-button type="default" class='btn-resign' @click='switch_login'>已有账号，立即登录</mt-button>
+                <mt-button type="default" class='btn-resign' @click='switch_login'>已有账号，立即登录</mt-button>
+            </div> 
         </div>
         
         <!-- 微信登录绑定手机 -->
@@ -226,13 +226,26 @@ export default {
             stylethree:false,
             isAndroid:true,
             wHeight:0,
-            linkURL:''
+            linkURL:'',
+            iswxLogin:true,
         }
     },
     mounted(){
         this.yzn();
         // this.isXT();
         // this.getCommid()
+		window.onresize = () => {
+            return (() => {
+                let pageHeight = window.innerHeight
+                if (pageHeight < 530) {
+                    this.iswxLogin = false // 隐藏
+                    console.log('隐藏')
+                } else {
+                    this.iswxLogin = true // 显示
+                    console.log('显示')
+                }
+            })()
+        }
     },
     created(){
         this.wHeight = window.innerHeight;
@@ -1010,17 +1023,6 @@ export default {
     margin-top: .2rem;
     height:.8rem;
 }
-
-.wechatloginP{
-    font-size: 0.32rem;
-    width: 100%;
-    height: 1.5rem;
-    left: 0;
-    right: 0;
-        position: fixed;
-    bottom: 0.5rem;
-        display: block;
-}
 .tit92{font-size: 0.24rem;
     margin-top: 0.35rem;
     left: 2.2rem;
@@ -1102,19 +1104,7 @@ export default {
     background:rgb(39, 162, 242);
     /* float: right; */
 }
-.btn-resign{
-    width:100%;
-    height: 1.5rem;
-    background-color: #fff;
-    left: 0;
-    right:0;
-    font-size: 0.3rem;
-    position: fixed;
-    bottom: 0px;
-    /* margin-top: 1rem; */
-    /* margin-left: -1rem; */
-    display: block;
-}
+
 .error{
     height: .2rem;
     font-size: .3rem;
@@ -1137,6 +1127,37 @@ export default {
     appearance: none;
     border:1px solid rgb(39, 162, 242);
     margin-right: .2rem;
+}
+.opera_quicka{
+    width: 100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0rem;
+    height: 2rem;
+}
+.wechatloginP{
+    font-size: 0.32rem;
+    width: 100%;
+    height: 0.5rem;
+    left: 0;
+    right: 0;
+    position: absolute;
+    top: 0rem;
+    display: block;
+}
+.btn-resign{
+    width:100%;
+    height: 1.5rem;
+    background-color: #fff;
+    left: 0;
+    right:0;
+    font-size: 0.3rem;
+    position: absolute;
+    bottom: 0px;
+    /* margin-top: 1rem; */
+    /* margin-left: -1rem; */
+    display: block;
 }
 
 </style>
