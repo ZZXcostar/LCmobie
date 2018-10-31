@@ -808,6 +808,7 @@ export default {
         // 获取验证码
         getcode(type){
             var that=this
+            console.log('aaaaaa')
             if(this.second=='获取验证码'){
                 if(this.phonejson.status){
                     let that=this;
