@@ -49,20 +49,23 @@ export default {
         }).then((res) => {
             if(res.data.status==200){
                 var data=res.data.info
+                
                 for(let i=0;i<data.length;i++){
-                    console.log(data[i])
-                    let type1=data[i].orderDetail.categoryName
-                    let type2=data[i].orderDetail.serviceType.serName
-                    if(type1=='null'){
-                        if(type2=='陪签服务'){
+                    
+                    // let type1=data[i].orderDetail.categoryName
+                    // let type2=data[i].orderDetail.serviceType.serName
+                    if(data[i].orderDetail.categoryName==null){
+                        if(data[i].orderDetail.serviceType.serName=='陪签服务'){
                             data[i].orderDetail.categoryName='陪签'
-                        }else if(type2=='全程监理'){
+                        }else if(data[i].orderDetail.serviceType.serName=='全程监理'){
                             data[i].orderDetail.categoryName='监理'
                         }
                     }else{
-                        data[i].orderDetail.categoryName=type1
+                        data[i].orderDetail.categoryName=data[i].orderDetail.categoryName
                     }
+                    console.log(data[i].orderDetail.categoryName)
                 }
+                console.log(res.data.info)
                 that.datainfo=res.data.info
                 that.name=res.data.info[0].name
             }else{
