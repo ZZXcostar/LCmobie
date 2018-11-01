@@ -125,7 +125,7 @@
                     <i class='icon iconfont icon-key font'></i>
                     <input type="number" class='codeinput' placeholder="验证码" v-model="codes" @focus="focus_input" @blur="blur_input">
                     <p class='error' v-show="bindingPhoneError" style="    position: absolute;">请输入正确的验证码</p>
-                    <router-link :to="linkURL" style='position:absolute;font-size:.3rem;top:.6rem;right:.2rem;'  @click.native='getcodes(2)'>{{second}}</router-link>
+                    <router-link :to="linkURL" style='position:absolute;font-size:.3rem;top:.6rem;right:.2rem;'  @click.native='getcodes(1)'>{{second}}</router-link>
                 </div>
                 <p class='opera_quicks' style=" margin-top: .8rem;">
                     <mt-button type="default" class='btn-logins button' @click="bindingPhonelogin" >完成并登录</mt-button>
@@ -606,17 +606,22 @@ export default {
                     alert('请输入验证码');
                 }
                 else{
-                    let that=this;
-                    let data='';
-                    if(this.openId==''){
-                        data='mobile='+this.phones+'&code='+this.codes;
-                    }
-                    else{
-                        data='mobile='+this.phones+'&code='+this.codes+'&openId='+this.openId;
-                    }
+                    let that=this;                 
+                    let recommendedTeamId=this.$route.query.recommendedTeamId;
+                    let recommendedAdminId=this.$route.query.recommendedAdminId;
+                    let openId = this.openId
+                    let data={
+                        mobile:that.phones,
+                        // password:that.psw,
+                        code:that.codes,
+                        openId:this.openId,
+                        companyId:this.companyid,
+                        recommendedAdminId:recommendedAdminId,
+                        recommendedTeamId:recommendedTeamId
+                    };
                     this.in_resolve=true;
                     Indicator.open('Loading...');
-                    this.$http.post('/api/customer/account/loginByOpenId?'+data)
+                    this.$http.post('/api/customer/account/register?doLogin=true&loginIfExist=true&openId='+openId,data)
                     .then(function(response){
                         
                         if(response.data.status == 200){
