@@ -19,7 +19,7 @@
             <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='监理'" src="../../../../static/images/presentation3.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
             <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='规划'" src="../../../../static/images/presentation4.png" alt="">
             <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='毛坯房验收'" src="../../../../static/images/presentation10.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
-            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='单次水电验收'" src="../../../../static/images/presentation8.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
+            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='单次水电验收' || item.orderDetail.categoryName=='水电验收'" src="../../../../static/images/presentation8.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
             <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='单次巡检'" src="../../../../static/images/presentation5.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
             <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='精装修验收'" src="../../../../static/images/presentation9.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
             <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='经典服务'" src="../../../../static/images/presentation7.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
