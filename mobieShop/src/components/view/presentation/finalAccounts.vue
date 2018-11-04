@@ -5,10 +5,9 @@
                 <p>业主信息</p>
             </div>
             <div class="text">
-                <span>业主姓名：张珍珍</span>
-                <span>业主电话：13512311485</span>
-                <div><span>验收地址：</span><p> 杭州市西湖区某某街道某某小区XXF802杭州市西湖区某某街道某
-              某小区XXF802</p></div>
+                <span>业主姓名：{{dataInfo.name}}</span>
+                <span>业主电话：{{dataInfo.orderDetail.phone}}</span>
+                <div><span>验收地址：</span><p> {{dataInfo.orderDetail.detailAddress}}</p></div>
             </div>
         </div>
          <div class="box">
@@ -16,9 +15,9 @@
                 <p>管家信息</p>
             </div>
             <div class="text">
-                <span>管家姓名：贺文志</span>
-                <span>管家电话：13512311485</span>
-                <div><span>验收时间：</span><p>2018-08-20 12:00</p></div>
+                <span>管家姓名：{{dataInfo.workList.name}}</span>
+                <span>管家电话：{{dataInfo.workList.phone}}</span>
+                <div><span>验收时间：</span><p>{{dataInfo.workList.createTime}}</p></div>
             </div>
         </div>
         <div class="box">
@@ -50,12 +49,25 @@
 export default {
     data(){
         return {
-           
+           dataInfo:''
         }
     },
     created(){
         //设置头部文字
         this.$root.$emit('header', '决算报告');
+        let id=this.$route.query.id
+        var data=sessionStorage.getItem("presentationInfo")
+        data=JSON.parse(data)
+        console.log(data)
+        this.dataInfo=data
+        var that=this;
+        this.$http({
+            url: "/api/public/entrysignadditmes/queryByIdss?judge=false",
+            method: "post",
+            data:[id],
+        }).then((res) => {
+            console.log(res)
+        })
         
     },
     methods:{

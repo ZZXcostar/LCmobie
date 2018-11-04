@@ -15,9 +15,15 @@
         </div>
         <div class="content">
             <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='陪签'" src="../../../../static/images/presentation1.png" :alt="item.orderDetail.commodityName" @click="companion(index)">
-            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='决算'" src="../../../../static/images/presentation2.png" :alt="item.orderDetail.commodityName" @click="finalAccounts(index)">
+            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='决算服务'" src="../../../../static/images/presentation2.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
             <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='监理'" src="../../../../static/images/presentation3.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
             <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='规划'" src="../../../../static/images/presentation4.png" alt="">
+            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='毛坯房验收'" src="../../../../static/images/presentation10.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
+            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='单次水电验收'" src="../../../../static/images/presentation8.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
+            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='单次巡检'" src="../../../../static/images/presentation5.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
+            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='精装修验收'" src="../../../../static/images/presentation9.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
+            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='经典服务'" src="../../../../static/images/presentation7.png" :alt="item.orderDetail.commodityName" @click="supervisor(index)">
+            <img v-for="(item,index) in datainfo" v-if="item.orderDetail.categoryName=='全案服务'" src="../../../../static/images/presentation6.png" :alt="item.orderDetail.commodityName" @click="companion(index)">
         </div>
     </div>
 </template>
@@ -49,18 +55,21 @@ export default {
         }).then((res) => {
             if(res.data.status==200){
                 var data=res.data.info
-                
                 for(let i=0,len=data.length;i<len;i++){
                     if(data[i].orderDetail.categoryName==null){
                         if(data[i].orderDetail.serviceType.serName=='陪签服务'){
                             data[i].orderDetail.categoryName='陪签'
                         }else if(data[i].orderDetail.serviceType.serName=='全程监理'){
                             data[i].orderDetail.categoryName='监理'
+                        }else{
+                            data[i].orderDetail.categoryName=data[i].orderDetail.serviceType.serName
                         }
                     }else{
                         data[i].orderDetail.categoryName=data[i].orderDetail.categoryName
                     }
+                    console.log(data[i].orderDetail.categoryName)
                 }
+                console.log(res.data.info)
                 that.datainfo=res.data.info
                 that.name=res.data.info[0].name
             }else{
@@ -84,7 +93,7 @@ export default {
                 console.log(res)
                 if(data.length==0){
                     Toast('此项目未生成节点');
-                    that.$router.go(-1);
+                    // that.$router.go(-1);
                 }else{
                     console.log(that.datainfo[index])
                     sessionStorage.setItem('presentationInfo',JSON.stringify(that.datainfo[index]))  
