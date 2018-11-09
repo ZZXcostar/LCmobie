@@ -9,7 +9,7 @@
                     <span>{{classifyname}}</span>
                     <i class='icon iconfont icon-sanjiaoxing-up'></i>
                 </li>
-                <li @click='changestatus($event,"price")' class='price'>
+                <li @click='changestatus($event,"priceShown")' class='price'>
                     <span>价格</span>    
                     <i class='icon iconfont icon-jiantouarrow503'></i>
                 </li>
@@ -117,7 +117,7 @@ import { Indicator } from 'mint-ui';
                         event.currentTarget.querySelector('i').setAttribute('class','icon iconfont icon-sanjiaoxing-up on');
                         break;
                     }
-                    case 'price':{
+                    case 'priceShown':{
                         document.querySelector('.showmask').style.display='none';
                         if(iscurrent){
                             if(isup){
@@ -129,7 +129,7 @@ import { Indicator } from 'mint-ui';
                                 isup=true;
                             }
                         }
-                        this.OrderBy(isup,'price');
+                        this.OrderBy(isup,'priceShown');
                         break;
                     }
                     case 'sale':{
@@ -184,9 +184,9 @@ import { Indicator } from 'mint-ui';
             // 排序
             OrderBy(isup,type){
                 switch(type){
-                    case 'price':{
+                    case 'priceShown':{
                         // this.commoditylist.sort(isup?this.sortupprice:this.sortdownprice);
-                        this.sortingCondition='price';
+                        this.sortingCondition='priceShown';
                         this.sortingOption=isup?1:-1;
                         this.getCommoditylist(1,true);
                         break;
