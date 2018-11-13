@@ -651,9 +651,9 @@ export default {
                                 that.$http.post('/api/product/coupon/customer/mall/insert?number=1&mobile='+that.phones,["b6b60f8c-dc17-11e8-a50c-fa163edc8ab6"]).
                                 then(function(res){
                                     if(res.data.status==200){
-                                         Toast('领取成功');
+                                       //  Toast('领取成功');
                                     }else if(res.data.status==300){
-                                        Toast('领取失败');
+                                      //  Toast('领取失败');
                                     }
                                 })
                                 .catch(function(response){
@@ -762,9 +762,9 @@ export default {
                                 that.$http.post('/api/product/coupon/customer/mall/insert?number=1&mobile='+that.phone,["b6b60f8c-dc17-11e8-a50c-fa163edc8ab6"]).
                                 then(function(res){
                                     if(res.data.status==200){
-                                         Toast('领取成功');
+                                        // Toast('领取成功');
                                     }else if(res.data.status==300){
-                                        Toast('领取失败');
+                                      //  Toast('领取失败');
                                     }
                                 })
                                 .catch(function(response){
