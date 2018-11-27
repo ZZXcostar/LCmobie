@@ -648,7 +648,7 @@ export default {
                             operatelocalstorage('userinfo',JSON.stringify(data),'set',300);
                             //家博注册领取优惠券
                             if(that.companyid == 92){
-                                that.$http.post('/api/product/coupon/customer/mall/insert?number=1&mobile='+that.phones,["b6b60f8c-dc17-11e8-a50c-fa163edc8ab6"]).
+                                that.$http.post('/api/product/coupon/customer/mall/insert?number=1&sendNotice=true&mobile='+that.phones,["b6b60f8c-dc17-11e8-a50c-fa163edc8ab6"]).
                                 then(function(res){
                                     if(res.data.status==200){
                                        //  Toast('领取成功');
@@ -759,7 +759,7 @@ export default {
                             operatelocalstorage('userinfo',JSON.stringify(data),'set',300);
                             //家博注册领取优惠券
                             if(that.companyid == 92){
-                                that.$http.post('/api/product/coupon/customer/mall/insert?number=1&mobile='+that.phone,["b6b60f8c-dc17-11e8-a50c-fa163edc8ab6"]).
+                                that.$http.post('/api/product/coupon/customer/mall/insert?number=1&sendNotice=true&mobile='+that.phone,["b6b60f8c-dc17-11e8-a50c-fa163edc8ab6"]).
                                 then(function(res){
                                     if(res.data.status==200){
                                         // Toast('领取成功');

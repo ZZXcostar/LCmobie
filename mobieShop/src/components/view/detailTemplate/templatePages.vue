@@ -593,14 +593,21 @@
             getcouponData.then(function(result) {
                 // console.log(result)
                 that.coupon = result.data.info.list
+                let couponArr = that.coupon
                  // console.log(that.coupon)
-                that.coupon.forEach((item, index) =>{
-                    if(item.couponInfo == null || item.couponInfo == "null"){
-                        that.couponShow = false
-                    }else{
-                        that.couponShow = true
-                    }
-                })
+                 couponArr.splice(couponArr.findIndex(item => item.couponInfo === null || item.couponInfo == "null"), 1)
+                 if(couponArr.length > 0){
+                     that.couponShow = true
+                 }else{
+                     that.couponShow = false
+                 }
+                // that.coupon.forEach((item, index) =>{
+                //     if(item.couponInfo == null || item.couponInfo == "null"){
+                //         that.couponShow = false
+                //     }else{
+                //         that.couponShow = true
+                //     }
+                // })
                 // if (that.coupon.length > 0) {
                 //     that.couponShow = true
                 // } else {
